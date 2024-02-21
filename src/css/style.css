@@ -1,0 +1,181 @@
+@font-face {
+    font-family: "Inter";
+    font-display: swap;
+    src: url("../fonts/inter.ttf");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+html {
+    color-scheme: dark;
+}
+
+body {
+    background-color: rgb(20, 20, 20);
+    scrollbar-color: rgb(240, 215, 250) rgb(60, 50, 65);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+}
+
+.titlebar {
+    display: flex;
+    align-items: center;
+    background-color: rgb(30, 30, 30);
+    -webkit-app-region: drag;
+}
+
+.titlebar p {
+    flex: 1 1;
+    font-size: 21px;
+    margin-left: 10px;
+    color: rgb(240, 215, 250);
+}
+
+.titlebar button {
+    border-radius: 0;
+    -webkit-app-region: no-drag;
+}
+
+.topbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    overflow: hidden;
+}
+
+.topbar .search {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    outline: none;
+    border: 0;
+    border-radius: 999px;
+    background-color: rgb(60, 50, 65);
+    color: rgb(240, 215, 250);
+    padding: 5px 10px;
+    overflow: hidden;
+    transition: all .25s ease;
+}
+
+.topbar .search:has(input:focus) {
+    box-shadow: 0 0 0 2px rgb(240, 215, 250);
+}
+
+.topbar .search input {
+    flex: 1 1;
+    outline: none;
+    border: 0;
+    padding: 15px 20px;
+    background-color: transparent;
+    font-size: inherit;
+    color: inherit;
+}
+
+.topbar .search input::placeholder {
+    color: rgb(240, 215, 250);
+}
+
+.topbar .search input::-webkit-search-cancel-button {
+    display: none;
+}
+
+button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 999px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
+    color: inherit;
+    overflow: hidden;
+    transition: all .25s ease;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.spaces {
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    padding-top: 0;
+    overflow: auto;
+}
+
+.spaces .space {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 70px;
+    height: 70px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    border: 0;
+    background-color: rgb(30, 30, 30);
+    padding-inline: 15px;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    transition: all .25s ease;
+}
+
+.spaces .space:hover {
+    background-color: rgb(40, 40, 40);
+    color:rgb(240, 215, 250);
+}
+
+.spaces .space:last-of-type {
+    margin-bottom: 0;
+}
+
+.spaces .space.hidden {
+    margin-bottom: 0;
+    min-height: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.spaces .space p {
+    flex: 1 1;
+    margin-left: 10px;
+}
+
+@keyframes grow {
+    to {
+        scale: 1;
+        opacity: 0;
+    }
+}
+
+.ripple {
+    position: absolute;
+    width: 500%;
+    aspect-ratio: 1;
+    pointer-events: none;
+    opacity: 1;
+    scale: 0;
+    translate: -50% -50%;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    animation: grow .5s linear forwards;
+}

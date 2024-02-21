@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/material-symbols.css"/>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="titlebar">
+            <p>Space</p>
+            <button id="minimize"><span class="material-symbols-outlined">minimize</span></button>
+            <button id="quit"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <div class="topbar">
+            <form class="search">
+                <input type="search" id="search" placeholder="Search or create spaces" spellcheck="false">
+                <button id="create" type="submit" ripple><span class="material-symbols-outlined">add</span></button>
+                <button id="openFolder" type="button" ripple><span class="material-symbols-outlined">folder</span></button>
+                <button id="refresh" type="button" ripple><span class="material-symbols-outlined">sync</span></button>
+            </form>
+        </div>
+        <div class="spaces">
+            <!-- <div class="space" ripple>
+                <p>Space name</p>
+                <button ripple><span class="material-symbols-outlined">delete</span></button>
+                <button ripple><span class="material-symbols-outlined">folder</span></button>
+            </div> -->
+        </div>
+    </div>
+</body>
+
+<script src="js/index.js"></script>
+
+</html>
