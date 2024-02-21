@@ -148,6 +148,66 @@ const updateSpaces = async () => {
             codeSpaceFn(spaceName);
             event.stopPropagation();
         });
+
+        deleteBtn.addEventListener("pointerdown", (event) => {
+            const ripple = document.createElement("div");
+            ripple.classList.add("ripple");
+
+            var rect = event.currentTarget.getBoundingClientRect(),
+                offsetX = event.clientX - rect.left,
+                offsetY = event.clientY - rect.top;
+
+            ripple.style.left = `${offsetX}px`;
+            ripple.style.top = `${offsetY}px`;
+
+            ripple.addEventListener("animationend", () => {
+                ripple.remove();
+            });
+
+            deleteBtn.appendChild(ripple);
+
+            event.stopPropagation();
+        });
+
+        openFolderBtn.addEventListener("pointerdown", (event) => {
+            const ripple = document.createElement("div");
+            ripple.classList.add("ripple");
+
+            var rect = event.currentTarget.getBoundingClientRect(),
+                offsetX = event.clientX - rect.left,
+                offsetY = event.clientY - rect.top;
+
+            ripple.style.left = `${offsetX}px`;
+            ripple.style.top = `${offsetY}px`;
+
+            ripple.addEventListener("animationend", () => {
+                ripple.remove();
+            });
+
+            openFolderBtn.appendChild(ripple);
+
+            event.stopPropagation();
+        });
+
+        space.addEventListener("pointerdown", (event) => {
+            const ripple = document.createElement("div");
+            ripple.classList.add("ripple");
+
+            var rect = event.currentTarget.getBoundingClientRect(),
+                offsetX = event.clientX - rect.left,
+                offsetY = event.clientY - rect.top;
+
+            ripple.style.left = `${offsetX}px`;
+            ripple.style.top = `${offsetY}px`;
+
+            ripple.addEventListener("animationend", () => {
+                ripple.remove();
+            });
+
+            space.appendChild(ripple);
+
+            event.stopPropagation();
+        });
     });
 
     const searchBar = document.getElementById("search");
