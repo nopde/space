@@ -169,7 +169,7 @@ createSpaceBtn.addEventListener("click", () => {
     const search = document.getElementById("search");
     if (search.value) {
         createSpaceFn(search.value);
-        search.value = "";
+        search.focus();
         updateSpaces();
     }
 });
@@ -182,7 +182,10 @@ openSpacesFolderBtn.addEventListener("click", () => {
     openSpacesFolderFn();
 });
 
-const search = new SearchBar(document.getElementById("search"));
+const searchBar = document.getElementById("search");
+const search = new SearchBar(searchBar);
 const spaces = document.querySelector(".spaces");
+
+searchBar.focus();
 
 search.spaceSearch(spaces);
