@@ -29,6 +29,7 @@ const createWindow = () => {
         icon: img,
         webPreferences: {
             // devTools: false,
+            zoomFactor: 1.0,
             preload: path.join(app.getAppPath(), "preload.js")
         }
     });
@@ -44,6 +45,7 @@ function execute(command, callback) {
     });
 }
 
+
 if (!gotTheLock) {
     app.quit();
 }
@@ -58,6 +60,10 @@ else {
 
     app.whenReady().then(() => {
         createWindow();
+
+        mainWindow.on("show", () => {
+            mainWindow.webContents.zoomFactor = 1.0;
+        });
 
         autoUpdater.on("update-downloaded", (event) => {
             const dialogOpts = {
