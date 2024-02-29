@@ -28,8 +28,7 @@
     },
     "devDependencies": {
         "electron": "^29.0.0",
-        "electron-builder": "^24.12.0",
-        "electron-tooltip": "^1.1.5"
+        "electron-builder": "^24.12.0"
     },
     "dependencies": {
         "electron-updater": "^6.1.8"

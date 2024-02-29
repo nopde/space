@@ -66,10 +66,10 @@ else {
                 title: "Space Update",
                 detail: "A new version has been downloaded. Restart the application to apply the updates."
             }
-    
+
             dialog.showMessageBox(dialogOpts).then((returnValue) => {
                 if (returnValue.response === 0) {
-                    autoUpdater.quitAndInstall(isSilent=false, isForceRunAfter=true);
+                    autoUpdater.quitAndInstall(isSilent = false, isForceRunAfter = true);
                     mainWindow.destroy();
                 }
             });

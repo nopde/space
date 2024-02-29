@@ -14,13 +14,15 @@
     <div class="wrapper">
         <div class="titlebar">
             <p>Space</p>
-            <button id="minimize"><span class="material-symbols-outlined">minimize</span></button>
+            <button id="minimize"><span class="material-symbols-outlined"><span class="material-symbols-outlined">
+                horizontal_rule
+                </span></span></button>
             <button id="quit"><span class="material-symbols-outlined">close</span></button>
         </div>
         <div class="topbar">
             <form class="search" onsubmit="return false">
-                <input type="search" id="search" placeholder="Search or create spaces" spellcheck="false">
-                <button id="create" type="submit" ripple><span class="material-symbols-outlined">add</span></button>
+                <input type="search" id="search" placeholder="Search or create spaces" spellcheck="false" autocomplete="off">
+                <button id="create" type="submit" data-tooltip="Create" ripple><span class="material-symbols-outlined">add</span></button>
                 <button id="openFolder" ripple><span class="material-symbols-outlined">folder</span></button>
                 <button id="refresh" ripple><span class="material-symbols-outlined">sync</span></button>
             </form>

@@ -17,8 +17,7 @@ html {
 }
 
 body {
-    background-color: rgb(20, 20, 20);
-    scrollbar-color: rgb(240, 215, 250) rgb(60, 50, 65);
+    background-color: rgb(10, 10, 10);
     font-size: 18px;
     font-weight: 500;
 }
@@ -32,8 +31,9 @@ body {
 .titlebar {
     display: flex;
     align-items: center;
-    background-color: rgb(30, 30, 30);
+    background-color: rgb(15, 15, 15);
     -webkit-app-region: drag;
+    border-bottom: 1px solid rgb(52, 52, 52);
 }
 
 .titlebar p {
@@ -71,7 +71,7 @@ body {
 }
 
 .topbar .search:has(input:focus) {
-    box-shadow: 0 0 0 2px rgb(240, 215, 250);
+    box-shadow: 0 0 0 1.5px rgb(240, 215, 250);
 }
 
 .topbar .search input {
@@ -117,9 +117,9 @@ button:hover {
     flex: 1 1;
     display: flex;
     flex-direction: column;
-    padding: 15px;
-    padding-top: 0;
     overflow: auto;
+    padding-inline: 15px;
+    margin-bottom: 15px;
 }
 
 .spaces .space {
@@ -128,10 +128,9 @@ button:hover {
     align-items: center;
     min-height: 70px;
     height: 70px;
-    border-radius: 15px;
+    border-radius: 10px;
     margin-bottom: 10px;
-    border: 0;
-    background-color: rgb(30, 30, 30);
+    background-color: rgb(20, 20, 20);
     padding-inline: 15px;
     cursor: pointer;
     outline: none;
@@ -140,8 +139,9 @@ button:hover {
 }
 
 .spaces .space:hover {
-    background-color: rgb(40, 40, 40);
+    background-color: rgb(30, 30, 30);
     color:rgb(240, 215, 250);
+    scale: 1.0075;
 }
 
 .spaces .space:last-of-type {
@@ -178,4 +178,24 @@ button:hover {
     background: rgba(255, 255, 255, 0.25);
     border-radius: 50%;
     animation: grow .5s linear forwards;
+}
+
+[data-tooltip]::after {
+    visibility: hidden;
+    content: attr(data-tooltip);
+    position: absolute;
+    z-index: 999;
+    background-color: red;
+}
+
+::-webkit-scrollbar {
+    border-radius: 999px;
+    width: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(240, 215, 250);
+    background-clip: content-box;
+    border: 4px solid #0000;
+    border-radius: 999px;
 }
