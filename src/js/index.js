@@ -249,3 +249,36 @@ const spaces = document.querySelector(".spaces");
 searchBar.focus();
 
 search.spaceSearch(spaces);
+
+const tooltip = document.querySelector(".tooltip");
+const tooltipElements = document.querySelectorAll("[tooltip]");
+
+tooltipElements.forEach(tooltipElement => {
+    tooltipElement.addEventListener("mouseenter", event => {
+        tooltip.innerHTML = tooltipElement.getAttribute("data-tooltip");
+        tooltip.classList.remove("hidden");
+
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const tooltipElementRect = tooltipElement.getBoundingClientRect();
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        let x = tooltipElementRect.x;
+        let y = tooltipElementRect.y + tooltipElementRect.height + 5;
+
+        if (tooltipElementRect.x + tooltipRect.width > windowWidth) {
+            x = windowWidth - tooltipRect.width;
+        }
+
+        if (tooltipElementRect.y + tooltipRect.height > windowHeight) {
+            y = windowHeight - tooltipRect.height + tooltipElementRect.height + 5;
+        }
+
+        tooltip.style.left = x + "px";
+        tooltip.style.top = y + "px";
+    });
+
+    tooltipElement.addEventListener("mouseleave", event => {
+        tooltip.classList.add("hidden");
+    });
+});

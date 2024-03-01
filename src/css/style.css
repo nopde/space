@@ -20,6 +20,7 @@ body {
     background-color: rgb(10, 10, 10);
     font-size: 18px;
     font-weight: 500;
+    overflow: hidden;
 }
 
 .wrapper {
@@ -66,7 +67,6 @@ body {
     background-color: rgb(60, 50, 65);
     color: rgb(240, 215, 250);
     padding: 5px 10px;
-    overflow: hidden;
     transition: all .25s ease;
 }
 
@@ -180,14 +180,6 @@ button:hover {
     animation: grow .5s linear forwards;
 }
 
-[data-tooltip]::after {
-    visibility: hidden;
-    content: attr(data-tooltip);
-    position: absolute;
-    z-index: 999;
-    background-color: red;
-}
-
 ::-webkit-scrollbar {
     border-radius: 999px;
     width: 15px;
@@ -198,4 +190,22 @@ button:hover {
     background-clip: content-box;
     border: 4px solid #0000;
     border-radius: 999px;
+}
+
+.tooltip {
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: rgb(80, 80, 80);
+    transition: all .25s ease, opacity .25s .25s ease;
+    text-wrap: nowrap;
+    pointer-events: none;
+}
+
+.tooltip.hidden {
+    opacity: 0;
+    transition: all .25s ease, opacity .25s ease;
 }
