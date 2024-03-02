@@ -1,8 +1,8 @@
 const { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage } = require("electron/main");
 const { shell, dialog } = require("electron");
 const { autoUpdater } = require("electron-updater");
-const fs = require("fs");
-const fs_promises = require("fs").promises;
+const fs = require("original-fs");
+const fs_promises = require("original-fs").promises;
 const path = require("node:path");
 
 let mainWindow;
