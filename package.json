@@ -1,26 +1,23 @@
 {
+    "author": "nopde",
+    "repository": "https://github.com/nopde/space",
     "name": "space",
-    "version": "0.0.4",
+    "version": "0.0.1",
     "description": "Windows VSCode Project Manager",
+    "license": "MIT",
     "main": "main.js",
     "scripts": {
         "start": "electron .",
-        "build": "electron-builder",
+        "build": "electron-builder build",
         "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "nopde",
-    "license": "MIT",
-    "repository": "https://github.com/nopde/space",
-    "publish": {
-        "provider": "github",
-        "releaseType": "release"
     },
     "build": {
         "appId": "com.space.app",
         "productName": "Space",
         "icon": "logo.ico",
         "win": {
-            "target": "nsis"
+            "artifactName": "SpaceSetup.exe",
+            "target": "nsis-web"
         },
         "directories": {
             "output": "dist"

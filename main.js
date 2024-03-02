@@ -28,7 +28,7 @@ const createWindow = () => {
         fullscreenable: false,
         icon: img,
         webPreferences: {
-            // devTools: false,
+            devTools: false,
             zoomFactor: 1.0,
             preload: path.join(app.getAppPath(), "preload.js")
         }
@@ -63,6 +63,17 @@ else {
 
         mainWindow.on("show", () => {
             mainWindow.webContents.zoomFactor = 1.0;
+        });
+
+        autoUpdater.on("update-available", (event) => {
+            const dialogOpts = {
+                type: "info",
+                buttons: ["Ok"],
+                title: "Space Update",
+                detail: "A new version is available and will be downloaded."
+            }
+
+            dialog.showMessageBox(dialogOpts);
         });
 
         autoUpdater.on("update-downloaded", (event) => {
