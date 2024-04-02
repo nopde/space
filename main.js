@@ -28,7 +28,7 @@ const createWindow = () => {
         fullscreenable: false,
         icon: img,
         webPreferences: {
-            devTools: false,
+            // devTools: false,
             zoomFactor: 1.0,
             preload: path.join(app.getAppPath(), "preload.js")
         }
@@ -44,7 +44,6 @@ function execute(command, callback) {
         callback(stdout);
     });
 }
-
 
 if (!gotTheLock) {
     app.quit();

@@ -49,31 +49,32 @@ class SearchBar {
     }
 }
 
+function createRipple(event, rippleElement) {
+    const ripple = document.createElement("div");
+    ripple.classList.add("ripple");
+
+    var rect = event.currentTarget.getBoundingClientRect(),
+        offsetX = event.clientX - rect.left,
+        offsetY = event.clientY - rect.top;
+
+    ripple.style.left = `${offsetX}px`;
+    ripple.style.top = `${offsetY}px`;
+
+    ripple.addEventListener("animationend", () => {
+        ripple.remove();
+    });
+
+    rippleElement.appendChild(ripple);
+
+    event.stopPropagation();
+}
+
 function checkRippleElements() {
     const rippleElements = document.querySelectorAll("[ripple]");
 
     rippleElements.forEach(rippleElement => {
-        rippleElement.removeEventListener("pointerdown");
-
-        rippleElement.addEventListener("pointerdown", (event) => {
-            const ripple = document.createElement("div");
-            ripple.classList.add("ripple");
-
-            var rect = event.currentTarget.getBoundingClientRect(),
-                offsetX = event.clientX - rect.left,
-                offsetY = event.clientY - rect.top;
-
-            ripple.style.left = `${offsetX}px`;
-            ripple.style.top = `${offsetY}px`;
-
-            ripple.addEventListener("animationend", () => {
-                ripple.remove();
-            });
-
-            rippleElement.appendChild(ripple);
-
-            event.stopPropagation();
-        });
+        rippleElement.removeEventListener("pointerdown", event => createRipple(event, rippleElement));
+        rippleElement.addEventListener("pointerdown", event => createRipple(event, rippleElement));
     });
 }
 
