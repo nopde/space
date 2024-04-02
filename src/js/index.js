@@ -196,6 +196,14 @@ const searchBar = document.getElementById("search");
 const search = new SearchBar(searchBar);
 const spaces = document.querySelector(".spaces");
 
+const clearSearchBtn = document.getElementById("clear");
+
+clearSearchBtn.addEventListener("click", (event) => {
+    searchBar.value = "";
+    searchBar.dispatchEvent(new Event("input"));
+    searchBar.focus();
+});
+
 searchBar.focus();
 
 search.spaceSearch(spaces);

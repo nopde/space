@@ -17,7 +17,7 @@ html {
 }
 
 body {
-    background-color: rgb(10, 10, 10);
+    background-color: rgb(20, 18, 24);
     font-size: 18px;
     font-weight: 500;
     overflow: hidden;
@@ -32,16 +32,16 @@ body {
 .titlebar {
     display: flex;
     align-items: center;
-    background-color: rgb(15, 15, 15);
+    background-color: rgb(25, 23, 29);
     -webkit-app-region: drag;
-    border-bottom: 1px solid rgb(52, 52, 52);
+    border-bottom: 1px solid rgb(52, 50, 56);
 }
 
 .titlebar p {
     flex: 1 1;
     font-size: 21px;
     margin-left: 10px;
-    color: rgb(240, 215, 250);
+    color: rgb(208, 188, 255);
 }
 
 .titlebar button {
@@ -55,6 +55,7 @@ body {
     align-items: center;
     padding: 15px;
     overflow: hidden;
+    border-bottom: 1px solid rgb(52, 50, 56);
 }
 
 .topbar .search {
@@ -64,14 +65,21 @@ body {
     outline: none;
     border: 0;
     border-radius: 999px;
-    background-color: rgb(60, 50, 65);
-    color: rgb(240, 215, 250);
+    background-color: transparent;
+    color: rgb(208, 188, 255);
     padding: 5px 10px;
+    box-shadow: 0 0 0 1px rgb(147, 143, 153);
     transition: all .25s ease;
 }
 
+.topbar .search:hover {
+    box-shadow: 0 0 0 1px rgb(204, 194, 220);
+    background-color: rgb(208, 188, 255, 0.08);
+}
+
 .topbar .search:has(input:focus) {
-    box-shadow: 0 0 0 1.5px rgb(240, 215, 250);
+    background-color: rgb(208, 188, 255, 0.12);
+    box-shadow: 0 0 0 1.5px rgb(208, 188, 255);
 }
 
 .topbar .search input {
@@ -85,7 +93,7 @@ body {
 }
 
 .topbar .search input::placeholder {
-    color: rgb(240, 215, 250);
+    color: rgb(208, 188, 255);
 }
 
 .topbar .search input::-webkit-search-cancel-button {
@@ -118,8 +126,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     overflow: auto;
-    padding-inline: 15px;
-    margin-bottom: 15px;
+    padding: 15px;
 }
 
 .spaces .space {
@@ -130,7 +137,7 @@ button:hover {
     height: 70px;
     border-radius: 10px;
     margin-bottom: 10px;
-    background-color: rgb(20, 20, 20);
+    background-color: rgb(15, 13, 19);
     padding-inline: 15px;
     cursor: pointer;
     outline: none;
@@ -139,8 +146,9 @@ button:hover {
 }
 
 .spaces .space:hover {
-    background-color: rgb(30, 30, 30);
-    color: rgb(240, 215, 250);
+    background-color: rgb(10, 8, 14);
+    box-shadow: 0 0 0 1.5px rgb(208, 188, 255) inset;
+    color: rgb(208, 188, 255);
     scale: 1.015;
 }
 
@@ -180,9 +188,9 @@ button:hover {
     aspect-ratio: 1;
     pointer-events: none;
     translate: -50% -50%;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(208, 188, 255, 0.25);
     border-radius: 50%;
-    animation: grow .5s linear forwards;
+    animation: grow .75s linear forwards;
 }
 
 ::-webkit-scrollbar {
@@ -191,7 +199,7 @@ button:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: rgb(240, 215, 250);
+    background-color: rgb(208, 188, 255);
     background-clip: content-box;
     border: 4px solid #0000;
     border-radius: 999px;
