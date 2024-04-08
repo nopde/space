@@ -127,6 +127,8 @@ button:hover {
     flex-direction: column;
     overflow: auto;
     padding: 15px;
+    padding-left: 30px;
+    scrollbar-gutter: stable;
 }
 
 .spaces .space {
@@ -142,6 +144,10 @@ button:hover {
     cursor: pointer;
     outline: none;
     overflow: hidden;
+    transition: margin-bottom .25s ease,
+                min-height .25s ease,
+                height .25s ease,
+                opacity .25s ease;
 }
 
 .spaces .space:hover {
