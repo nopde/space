@@ -73,12 +73,9 @@ function checkRippleElements() {
     const rippleElements = document.querySelectorAll("[ripple]");
 
     rippleElements.forEach(rippleElement => {
-        rippleElement.removeEventListener("pointerdown", event => createRipple(event, rippleElement));
         rippleElement.addEventListener("pointerdown", event => createRipple(event, rippleElement));
     });
 }
-
-checkRippleElements()
 
 const quitBtn = document.getElementById("quit");
 const minimizeBtn = document.getElementById("minimize");
@@ -195,14 +192,6 @@ openSpacesFolderBtn.addEventListener("click", () => {
 const searchBar = document.getElementById("search");
 const search = new SearchBar(searchBar);
 const spaces = document.querySelector(".spaces");
-
-const clearSearchBtn = document.getElementById("clear");
-
-clearSearchBtn.addEventListener("click", (event) => {
-    searchBar.value = "";
-    searchBar.dispatchEvent(new Event("input"));
-    searchBar.focus();
-});
 
 searchBar.focus();
 
