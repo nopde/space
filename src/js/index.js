@@ -49,31 +49,71 @@ class SearchBar {
     }
 }
 
-function createRipple(event, rippleElement) {
-    const ripple = document.createElement("div");
-    ripple.classList.add("ripple");
+function createRipple(rippleElement) {
+    const existingSurface = rippleElement.querySelector(":scope > ripple-surface");
+    if (existingSurface) {
+        return;
+    }
+    
+    const rippleSurface = document.createElement("ripple-surface");
 
-    var rect = event.currentTarget.getBoundingClientRect(),
-        offsetX = event.clientX - rect.left,
-        offsetY = event.clientY - rect.top;
+    rippleElement.appendChild(rippleSurface);
 
-    ripple.style.left = `${offsetX}px`;
-    ripple.style.top = `${offsetY}px`;
+    rippleElement.addEventListener("pointerdown", event => {
+        const ripple = document.createElement("ripple");
 
-    ripple.addEventListener("animationend", () => {
-        ripple.remove();
+        var rect = rippleSurface.getBoundingClientRect(),
+            offsetX = event.clientX - rect.left,
+            offsetY = event.clientY - rect.top;
+
+        ripple.style.left = `${offsetX}px`;
+        ripple.style.top = `${offsetY}px`;
+
+        let animationEnded = false;
+
+        ripple.addEventListener("animationend", event => {
+            animationEnded = true;
+        });
+
+        rippleElement.addEventListener("pointerup", event => {
+            if (animationEnded) {
+                ripple.style.opacity = 0;
+            }
+            else {
+                ripple.addEventListener("animationend", event => {
+                    ripple.style.opacity = 0;
+                });
+            }
+        });
+
+        rippleElement.addEventListener("pointerleave", event => {
+            if (animationEnded) {
+                ripple.style.opacity = 0;
+                setTimeout(() => {
+                    ripple.remove();
+                }, 300);
+            }
+            else {
+                ripple.addEventListener("animationend", event => {
+                    ripple.style.opacity = 0;
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 300);
+                });
+            }
+        });
+
+        rippleSurface.appendChild(ripple);
+        
+        event.stopPropagation();
     });
-
-    rippleElement.appendChild(ripple);
-
-    event.stopPropagation();
 }
 
 function checkRippleElements() {
     const rippleElements = document.querySelectorAll("[ripple]");
 
     rippleElements.forEach(rippleElement => {
-        rippleElement.addEventListener("pointerdown", event => createRipple(event, rippleElement));
+        createRipple(rippleElement);
     });
 }
 
