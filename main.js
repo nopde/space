@@ -209,6 +209,17 @@ else {
             });
         });
 
+        ipcMain.handle("renameSpace", async (event, old_name, new_name) => {
+            const oldFolderPath = path.join(app.getPath("appData"), "space", "spaces", old_name);
+            const newFolderPath = path.join(app.getPath("appData"), "space", "spaces", new_name);
+
+            fs.rename(oldFolderPath, newFolderPath, (err) => {
+                if (err) {
+                    console.error(err);
+                }
+            });
+        });
+
         ipcMain.handle("quit", (event) => {
             app.quit();
         });

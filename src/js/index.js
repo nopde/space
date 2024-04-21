@@ -158,6 +158,10 @@ const codeSpaceFn = async (name) => {
     await window.electronAPI.codeSpace(name);
 }
 
+const renameSpaceFn = async (old_name, new_name) => {
+    await window.electronAPI.renameSpace(old_name, new_name);
+}
+
 const updateSpaces = async () => {
     const spaces = await window.electronAPI.getSpaces();
 
@@ -168,6 +172,7 @@ const updateSpaces = async () => {
         const spaceHTML = `
             <div class="space" id="${spaceName}" ripple>
                 <p>${spaceName}</p>
+                <button id="${spaceName}.rename" ripple><span class="material-symbols-outlined">edit</span></button>
                 <button id="${spaceName}.delete" ripple><span class="material-symbols-outlined">delete</span></button>
                 <button id="${spaceName}.openFolder" ripple><span class="material-symbols-outlined">folder</span></button>
             </div>
@@ -180,8 +185,14 @@ const updateSpaces = async () => {
 
         spacesContainer.appendChild(space);
 
+        const renameBtn = document.getElementById(`${spaceName}.rename`);
         const deleteBtn = document.getElementById(`${spaceName}.delete`);
         const openFolderBtn = document.getElementById(`${spaceName}.openFolder`);
+
+        renameBtn.addEventListener("click", (event) => {
+            renamePopup(spaceName);
+            event.stopPropagation();
+        });
 
         deleteBtn.addEventListener("click", (event) => {
             deleteSpaceFn(spaceName);
@@ -212,6 +223,51 @@ const updateSpaces = async () => {
 
 createSpaceFolder();
 updateSpaces();
+
+function renamePopup(spaceName) {
+    const popupHTML = `
+        <form class="popup" onsubmit="return false">
+            <p class="title">Rename space</p>
+            <input id="popup input" type="text" placeholder="Space name" spellcheck="false" autocomplete="off" required>
+            <div class="controls">
+                <button type="submit" id="popup confirm" ripple><span class="material-symbols-outlined">check</span></button>
+                <button id="popup cancel" ripple><span class="material-symbols-outlined">close</span></button>
+            </div>
+        </form>
+    `;
+
+    const container = document.createElement("div");
+    container.classList.add("popup-container");
+
+    container.innerHTML = popupHTML;
+
+    document.body.appendChild(container);
+
+    const confirm = document.getElementById("popup confirm");
+    const cancel = document.getElementById("popup cancel");
+    const input = document.getElementById("popup input");
+
+    input.value = spaceName;
+    input.focus();
+
+    confirm.addEventListener("click", event => {
+        renameSpaceFn(spaceName, input.value.replace(/ /g, "-"));
+
+        let animation = container.animate([{ opacity: 0 }], { fill: "forwards", duration: 250, easing: "ease" });
+        animation.addEventListener("finish", function() {
+            updateSpaces();
+            container.remove();
+        });
+    });
+
+    cancel.addEventListener("click", event => {
+        let animation = container.animate([{ opacity: 0 }], { fill: "forwards", duration: 250, easing: "ease" });
+        animation.addEventListener("finish", function() {
+            updateSpaces();
+            container.remove();
+        });
+    });
+}
 
 const createSpaceBtn = document.getElementById("create");
 const refreshSpacesBtn = document.getElementById("refresh");
@@ -259,7 +315,7 @@ tooltipElements.forEach(tooltipElement => {
         let y = tooltipElementRect.y + tooltipElementRect.height + 5;
 
         if (tooltipElementRect.x + tooltipRect.width > windowWidth) {
-            x = windowWidth - tooltipRect.width;
+            x = windowWidth - tooltipRect.width - 5;
         }
 
         if (tooltipElementRect.y + tooltipRect.height > windowHeight) {

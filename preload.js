@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
     openSpaceFolder: (name) => ipcRenderer.invoke("openSpaceFolder", name),
     openSpacesFolder: () => ipcRenderer.invoke("openSpacesFolder"),
     codeSpace: (name) => ipcRenderer.invoke("codeSpace", name),
+    renameSpace: (old_name, new_name) => ipcRenderer.invoke("renameSpace", old_name, new_name),
     quit: () => ipcRenderer.invoke("quit"),
     minimize: () => ipcRenderer.invoke("minimize"),
 });
