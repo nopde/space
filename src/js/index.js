@@ -66,6 +66,11 @@ function createRipple(rippleElement) {
             offsetX = event.clientX - rect.left,
             offsetY = event.clientY - rect.top;
 
+        const size = Math.max(rect.height, rect.width);
+        
+        ripple.style.width = `${size}px`;
+        ripple.style.height = `${size}px`;
+
         ripple.style.left = `${offsetX}px`;
         ripple.style.top = `${offsetY}px`;
 
@@ -104,7 +109,7 @@ function createRipple(rippleElement) {
         });
 
         rippleSurface.appendChild(ripple);
-        
+
         event.stopPropagation();
     });
 }
