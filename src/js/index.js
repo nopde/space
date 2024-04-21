@@ -54,7 +54,7 @@ function createRipple(rippleElement) {
     if (existingSurface) {
         return;
     }
-    
+
     const rippleSurface = document.createElement("ripple-surface");
 
     rippleElement.appendChild(rippleSurface);
@@ -67,7 +67,7 @@ function createRipple(rippleElement) {
             offsetY = event.clientY - rect.top;
 
         const size = Math.max(rect.height, rect.width);
-        
+
         ripple.style.width = `${size}px`;
         ripple.style.height = `${size}px`;
 
