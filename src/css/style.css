@@ -295,7 +295,7 @@ ripple {
     background-color: rgb(208, 188, 255, 0.08);
 }
 
-.popup input:has(input:focus) {
+.popup input:focus {
     background-color: rgb(208, 188, 255, 0.12);
     box-shadow: 0 0 0 1.5px rgb(208, 188, 255);
 }
