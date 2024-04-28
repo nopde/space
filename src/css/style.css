@@ -114,7 +114,7 @@ button {
     background-color: transparent;
     color: inherit;
     overflow: hidden;
-    transition: all .25s ease;
+    transition: all .25s ease, color 0s;
 }
 
 button:hover {
@@ -140,6 +140,7 @@ button:hover {
     border-radius: 10px;
     margin-bottom: 10px;
     background-color: rgb(15, 13, 19);
+    box-shadow: 0 0 0 1px rgb(52, 50, 56);
     padding-inline: 15px;
     cursor: pointer;
     outline: none;
@@ -221,14 +222,14 @@ ripple {
     background-color: rgb(40, 32, 44);
     color: rgb(208, 188, 255);
     box-shadow: 0 0 2px 0 rgba(208, 188, 255, 1), 0 2px 10px rgba(0, 0, 0, 0.25);
-    transition: all .25s ease, opacity .25s .25s ease;
+    transition: all .25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity .25s .25s ease;
     text-wrap: nowrap;
     pointer-events: none;
 }
 
 .tooltip.hidden {
     opacity: 0;
-    transition: all .25s ease, opacity .25s ease;
+    transition: all .25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity .25s ease;
 }
 
 @keyframes popup {
