@@ -148,7 +148,8 @@ button:hover {
     transition: margin-bottom .25s ease,
                 min-height .25s ease,
                 height .25s ease,
-                opacity .25s ease;
+                opacity .25s ease,
+                scale .15s ease;
 }
 
 .spaces .space:hover {
@@ -166,6 +167,7 @@ button:hover {
     min-height: 0;
     height: 0;
     opacity: 0;
+    scale: .95;
 }
 
 .spaces .space p {
