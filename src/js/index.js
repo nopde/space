@@ -172,9 +172,9 @@ const updateSpaces = async () => {
         const spaceHTML = `
             <div class="space" id="${spaceName}" ripple>
                 <p>${spaceName}</p>
-                <button id="${spaceName}.rename" ripple><span class="material-symbols-outlined">edit</span></button>
-                <button id="${spaceName}.delete" ripple><span class="material-symbols-outlined">delete</span></button>
-                <button id="${spaceName}.openFolder" ripple><span class="material-symbols-outlined">folder</span></button>
+                <button id="${spaceName}.rename" tooltip data-tooltip="Edit" ripple><span class="material-symbols-outlined">edit</span></button>
+                <button id="${spaceName}.delete" tooltip data-tooltip="Delete" ripple><span class="material-symbols-outlined">delete</span></button>
+                <button id="${spaceName}.openFolder" tooltip data-tooltip="Open folder" ripple><span class="material-symbols-outlined">folder</span></button>
             </div>
         `
         const spaceContainer = document.createElement("div");
@@ -195,7 +195,7 @@ const updateSpaces = async () => {
         });
 
         deleteBtn.addEventListener("click", (event) => {
-            deleteSpaceFn(spaceName);
+            deletePopup(spaceName);
             event.stopPropagation();
         });
 
@@ -211,6 +211,7 @@ const updateSpaces = async () => {
     });
 
     checkRippleElements();
+    checkTooltipElements();
 
     const searchBar = document.getElementById("search");
     const inputEvent = new Event("input", {
@@ -223,6 +224,48 @@ const updateSpaces = async () => {
 
 createSpaceFolder();
 updateSpaces();
+
+function deletePopup(spaceName) {
+    const popupHTML = `
+        <form class="popup" onsubmit="return false">
+            <p class="title">Delete <b>${spaceName}</b></p>
+            <div class="controls">
+                <button type="submit" id="popup confirm" ripple><span class="material-symbols-outlined">check</span></button>
+                <button id="popup cancel" ripple><span class="material-symbols-outlined">close</span></button>
+            </div>
+        </form>
+    `;
+
+    const container = document.createElement("div");
+    container.classList.add("popup-container");
+
+    container.innerHTML = popupHTML;
+
+    document.body.appendChild(container);
+
+    const confirm = document.getElementById("popup confirm");
+    const cancel = document.getElementById("popup cancel");
+
+    confirm.focus();
+
+    confirm.addEventListener("click", event => {
+        deleteSpaceFn(spaceName);
+
+        let animation = container.animate([{ opacity: 0 }], { fill: "forwards", duration: 250, easing: "ease" });
+        animation.addEventListener("finish", function() {
+            updateSpaces();
+            container.remove();
+        });
+    });
+
+    cancel.addEventListener("click", event => {
+        let animation = container.animate([{ opacity: 0 }], { fill: "forwards", duration: 250, easing: "ease" });
+        animation.addEventListener("finish", function() {
+            updateSpaces();
+            container.remove();
+        });
+    });
+}
 
 function renamePopup(spaceName) {
     const popupHTML = `
@@ -299,34 +342,37 @@ searchBar.focus();
 search.spaceSearch(spaces);
 
 const tooltip = document.querySelector(".tooltip");
-const tooltipElements = document.querySelectorAll("[tooltip]");
 
-tooltipElements.forEach(tooltipElement => {
-    tooltipElement.addEventListener("mouseenter", event => {
-        tooltip.innerHTML = tooltipElement.getAttribute("data-tooltip");
-        tooltip.classList.remove("hidden");
+function checkTooltipElements() {
+    const tooltipElements = document.querySelectorAll("[tooltip]");
 
-        const tooltipRect = tooltip.getBoundingClientRect();
-        const tooltipElementRect = tooltipElement.getBoundingClientRect();
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
-
-        let x = tooltipElementRect.x;
-        let y = tooltipElementRect.y + tooltipElementRect.height + 5;
-
-        if (tooltipElementRect.x + tooltipRect.width > windowWidth) {
-            x = windowWidth - tooltipRect.width - 5;
-        }
-
-        if (tooltipElementRect.y + tooltipRect.height > windowHeight) {
-            y = windowHeight - tooltipRect.height + tooltipElementRect.height + 5;
-        }
-
-        tooltip.style.left = x + "px";
-        tooltip.style.top = y + "px";
+    tooltipElements.forEach(tooltipElement => {
+        tooltipElement.addEventListener("mouseenter", event => {
+            tooltip.innerHTML = tooltipElement.getAttribute("data-tooltip");
+            tooltip.classList.remove("hidden");
+    
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const tooltipElementRect = tooltipElement.getBoundingClientRect();
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+    
+            let x = tooltipElementRect.x;
+            let y = tooltipElementRect.y + tooltipElementRect.height + 5;
+    
+            if (tooltipElementRect.x + tooltipRect.width > windowWidth) {
+                x = windowWidth - tooltipRect.width - 5;
+            }
+    
+            if (tooltipElementRect.y + tooltipRect.height > windowHeight) {
+                y = windowHeight - tooltipRect.height + tooltipElementRect.height + 5;
+            }
+    
+            tooltip.style.left = x + "px";
+            tooltip.style.top = y + "px";
+        });
+    
+        tooltipElement.addEventListener("mouseleave", event => {
+            tooltip.classList.add("hidden");
+        });
     });
-
-    tooltipElement.addEventListener("mouseleave", event => {
-        tooltip.classList.add("hidden");
-    });
-});
+}
