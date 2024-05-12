@@ -172,9 +172,9 @@ const updateSpaces = async () => {
         const spaceHTML = `
             <div class="space" id="${spaceName}" ripple>
                 <p>${spaceName}</p>
-                <button id="${spaceName}.rename" tooltip data-tooltip="Edit" ripple><span class="material-symbols-outlined">edit</span></button>
-                <button id="${spaceName}.delete" tooltip data-tooltip="Delete" ripple><span class="material-symbols-outlined">delete</span></button>
-                <button id="${spaceName}.openFolder" tooltip data-tooltip="Open folder" ripple><span class="material-symbols-outlined">folder</span></button>
+                <button id="${spaceName} rename" tooltip data-tooltip="Edit" ripple><span class="material-symbols-outlined">edit</span></button>
+                <button id="${spaceName} delete" tooltip data-tooltip="Delete" ripple><span class="material-symbols-outlined">delete</span></button>
+                <button id="${spaceName} openFolder" tooltip data-tooltip="Open folder" ripple><span class="material-symbols-outlined">folder</span></button>
             </div>
         `
         const spaceContainer = document.createElement("div");
@@ -185,9 +185,9 @@ const updateSpaces = async () => {
 
         spacesContainer.appendChild(space);
 
-        const renameBtn = document.getElementById(`${spaceName}.rename`);
-        const deleteBtn = document.getElementById(`${spaceName}.delete`);
-        const openFolderBtn = document.getElementById(`${spaceName}.openFolder`);
+        const renameBtn = document.getElementById(`${spaceName} rename`);
+        const deleteBtn = document.getElementById(`${spaceName} delete`);
+        const openFolderBtn = document.getElementById(`${spaceName} openFolder`);
 
         renameBtn.addEventListener("click", (event) => {
             renamePopup(spaceName);
@@ -229,9 +229,10 @@ function deletePopup(spaceName) {
     const popupHTML = `
         <form class="popup" onsubmit="return false">
             <p class="title">Delete <b>${spaceName}</b></p>
+            <div class="separator"></div>
             <div class="controls">
-                <button type="submit" id="popup confirm" ripple><span class="material-symbols-outlined">check</span></button>
-                <button id="popup cancel" ripple><span class="material-symbols-outlined">close</span></button>
+                <button type="submit" id="popup confirm" tooltip data-tooltip="Confirm" ripple><span class="material-symbols-outlined">check</span></button>
+                <button id="popup cancel" tooltip data-tooltip="Cancel" ripple><span class="material-symbols-outlined">close</span></button>
             </div>
         </form>
     `;
@@ -242,6 +243,8 @@ function deletePopup(spaceName) {
     container.innerHTML = popupHTML;
 
     document.body.appendChild(container);
+
+    checkTooltipElements();
 
     const confirm = document.getElementById("popup confirm");
     const cancel = document.getElementById("popup cancel");
@@ -273,8 +276,8 @@ function renamePopup(spaceName) {
             <p class="title">Rename space</p>
             <input id="popup input" type="text" placeholder="Space name" spellcheck="false" autocomplete="off" required>
             <div class="controls">
-                <button type="submit" id="popup confirm" ripple><span class="material-symbols-outlined">check</span></button>
-                <button id="popup cancel" ripple><span class="material-symbols-outlined">close</span></button>
+                <button type="submit" id="popup confirm" tooltip data-tooltip="Confirm" ripple><span class="material-symbols-outlined">check</span></button>
+                <button id="popup cancel" tooltip data-tooltip="Cancel" ripple><span class="material-symbols-outlined">close</span></button>
             </div>
         </form>
     `;
@@ -285,6 +288,8 @@ function renamePopup(spaceName) {
     container.innerHTML = popupHTML;
 
     document.body.appendChild(container);
+
+    checkTooltipElements();
 
     const confirm = document.getElementById("popup confirm");
     const cancel = document.getElementById("popup cancel");
@@ -363,8 +368,8 @@ function checkTooltipElements() {
                 x = windowWidth - tooltipRect.width - 5;
             }
     
-            if (tooltipElementRect.y + tooltipRect.height > windowHeight) {
-                y = windowHeight - tooltipRect.height + tooltipElementRect.height + 5;
+            if (tooltipElementRect.bottom + tooltipRect.height > windowHeight) {
+                y = windowHeight - tooltipRect.height - 5;
             }
     
             tooltip.style.left = x + "px";

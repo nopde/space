@@ -152,13 +152,15 @@ button:hover {
                 min-height .25s ease,
                 height .25s ease,
                 opacity .25s ease,
-                scale .15s ease;
+                scale .15s ease,
+                margin-inline .15s ease;
 }
 
 .spaces .space:hover {
     background-color: rgb(10, 8, 14);
     box-shadow: 0 0 0 1.5px rgb(208, 188, 255);
     color: rgb(208, 188, 255);
+    margin-inline: -5px;
 }
 
 .spaces .space:last-of-type {
@@ -252,7 +254,7 @@ ripple {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 999;
+    z-index: 250;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -261,12 +263,13 @@ ripple {
 }
 
 .popup {
+    min-width: 200px;
     display: flex;
     align-items: end;
     flex-direction: column;
     background-color: rgb(40, 32, 44);
     color: rgb(208, 188, 255);
-    box-shadow: 0 0 2px 0 rgba(208, 188, 255, 1), 0 2px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 0 1px rgba(208, 188, 255, 1);
     border-radius: 10px;
     overflow: hidden;
 }
@@ -274,6 +277,12 @@ ripple {
 .popup .title {
     align-self: center;
     padding: 10px;
+}
+
+.popup .separator {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(208, 188, 255, 1);
 }
 
 .popup .controls {
@@ -291,13 +300,12 @@ ripple {
     background-color: transparent;
     color: rgb(208, 188, 255);
     padding: 15px 20px;
-    box-shadow: 0 0 0 1px rgb(147, 143, 153);
+    box-shadow: 0 0 0 1px rgb(204, 194, 220);
     font-size: 16px;
     transition: all .25s ease;
 }
 
 .popup input:hover {
-    box-shadow: 0 0 0 1px rgb(204, 194, 220);
     background-color: rgb(208, 188, 255, 0.08);
 }
 
