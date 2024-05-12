@@ -231,8 +231,8 @@ function deletePopup(spaceName) {
             <p class="title">Delete <b>${spaceName}</b></p>
             <div class="separator"></div>
             <div class="controls">
-                <button type="submit" id="popup confirm" tooltip data-tooltip="Confirm" ripple><span class="material-symbols-outlined">check</span></button>
-                <button id="popup cancel" tooltip data-tooltip="Cancel" ripple><span class="material-symbols-outlined">close</span></button>
+                <button type="submit" id="popup confirm" ripple><span class="material-symbols-outlined">check</span></button>
+                <button id="popup cancel" ripple><span class="material-symbols-outlined">close</span></button>
             </div>
         </form>
     `;
@@ -244,7 +244,7 @@ function deletePopup(spaceName) {
 
     document.body.appendChild(container);
 
-    checkTooltipElements();
+    checkRippleElements();
 
     const confirm = document.getElementById("popup confirm");
     const cancel = document.getElementById("popup cancel");
@@ -276,8 +276,8 @@ function renamePopup(spaceName) {
             <p class="title">Rename space</p>
             <input id="popup input" type="text" placeholder="Space name" spellcheck="false" autocomplete="off" required>
             <div class="controls">
-                <button type="submit" id="popup confirm" tooltip data-tooltip="Confirm" ripple><span class="material-symbols-outlined">check</span></button>
-                <button id="popup cancel" tooltip data-tooltip="Cancel" ripple><span class="material-symbols-outlined">close</span></button>
+                <button type="submit" id="popup confirm" ripple><span class="material-symbols-outlined">check</span></button>
+                <button id="popup cancel" ripple><span class="material-symbols-outlined">close</span></button>
             </div>
         </form>
     `;
@@ -289,7 +289,7 @@ function renamePopup(spaceName) {
 
     document.body.appendChild(container);
 
-    checkTooltipElements();
+    checkRippleElements();
 
     const confirm = document.getElementById("popup confirm");
     const cancel = document.getElementById("popup cancel");
