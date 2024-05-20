@@ -9,7 +9,7 @@ let mainWindow;
 let tray;
 const gotTheLock = app.requestSingleInstanceLock();
 
-const iconPath = path.join(app.getAppPath(), "assets/old.ico");
+const iconPath = path.join(app.getAppPath(), "assets/logo.ico");
 const img = nativeImage.createFromPath(iconPath);
 
 Object.defineProperty(app, "isPackaged", {
