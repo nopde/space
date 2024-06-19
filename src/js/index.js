@@ -67,12 +67,23 @@ function createRipple(rippleElement) {
             offsetY = event.clientY - rect.top;
 
         const size = Math.max(rect.height, rect.width);
+        const min = Math.min(rect.height, rect.width);
+        let properSize = 0;
 
-        ripple.style.width = `${size}px`;
-        ripple.style.height = `${size}px`;
+        if (min <= size / 2) {
+            properSize = size * 1.5;
+        }
+        else {
+            properSize = size * (1 + min / size);
+        }
+
+        ripple.style.width = `${properSize}px`;
+        ripple.style.height = `${properSize}px`;
 
         ripple.style.left = `${offsetX}px`;
         ripple.style.top = `${offsetY}px`;
+
+        ripple.animate([{ left: "50%", top: "50%" }], { duration: 500, easing: "cubic-bezier(0.25, 1, 0.5, 1)", fill: "forwards" });
 
         let animationEnded = false;
 
@@ -83,10 +94,16 @@ function createRipple(rippleElement) {
         rippleElement.addEventListener("pointerup", event => {
             if (animationEnded) {
                 ripple.style.opacity = 0;
+                setTimeout(() => {
+                    ripple.remove();
+                }, 300);
             }
             else {
                 ripple.addEventListener("animationend", event => {
                     ripple.style.opacity = 0;
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 300);
                 });
             }
         });
@@ -225,98 +242,6 @@ const updateSpaces = async () => {
 createSpaceFolder();
 updateSpaces();
 
-function deletePopup(spaceName) {
-    const popupHTML = `
-        <form class="popup" onsubmit="return false">
-            <p class="title">Delete <b>${spaceName}</b></p>
-            <div class="separator"></div>
-            <div class="controls">
-                <button type="submit" id="popup confirm" ripple><span class="material-symbols-outlined">check</span></button>
-                <button id="popup cancel" ripple><span class="material-symbols-outlined">close</span></button>
-            </div>
-        </form>
-    `;
-
-    const container = document.createElement("div");
-    container.classList.add("popup-container");
-
-    container.innerHTML = popupHTML;
-
-    document.body.appendChild(container);
-
-    checkRippleElements();
-
-    const confirm = document.getElementById("popup confirm");
-    const cancel = document.getElementById("popup cancel");
-
-    confirm.focus();
-
-    confirm.addEventListener("click", event => {
-        deleteSpaceFn(spaceName);
-
-        let animation = container.animate([{ opacity: 0 }], { fill: "forwards", duration: 250, easing: "ease" });
-        animation.addEventListener("finish", function() {
-            updateSpaces();
-            container.remove();
-        });
-    });
-
-    cancel.addEventListener("click", event => {
-        let animation = container.animate([{ opacity: 0 }], { fill: "forwards", duration: 250, easing: "ease" });
-        animation.addEventListener("finish", function() {
-            updateSpaces();
-            container.remove();
-        });
-    });
-}
-
-function renamePopup(spaceName) {
-    const popupHTML = `
-        <form class="popup" onsubmit="return false">
-            <p class="title">Rename space</p>
-            <input id="popup input" type="text" placeholder="Space name" spellcheck="false" autocomplete="off" required>
-            <div class="controls">
-                <button type="submit" id="popup confirm" ripple><span class="material-symbols-outlined">check</span></button>
-                <button id="popup cancel" ripple><span class="material-symbols-outlined">close</span></button>
-            </div>
-        </form>
-    `;
-
-    const container = document.createElement("div");
-    container.classList.add("popup-container");
-
-    container.innerHTML = popupHTML;
-
-    document.body.appendChild(container);
-
-    checkRippleElements();
-
-    const confirm = document.getElementById("popup confirm");
-    const cancel = document.getElementById("popup cancel");
-    const input = document.getElementById("popup input");
-
-    input.value = spaceName;
-    input.focus();
-
-    confirm.addEventListener("click", event => {
-        renameSpaceFn(spaceName, input.value.replace(/ /g, "-"));
-
-        let animation = container.animate([{ opacity: 0 }], { fill: "forwards", duration: 250, easing: "ease" });
-        animation.addEventListener("finish", function() {
-            updateSpaces();
-            container.remove();
-        });
-    });
-
-    cancel.addEventListener("click", event => {
-        let animation = container.animate([{ opacity: 0 }], { fill: "forwards", duration: 250, easing: "ease" });
-        animation.addEventListener("finish", function() {
-            updateSpaces();
-            container.remove();
-        });
-    });
-}
-
 const createSpaceBtn = document.getElementById("create");
 const refreshSpacesBtn = document.getElementById("refresh");
 const openSpacesFolderBtn = document.getElementById("openFolder");
@@ -338,6 +263,10 @@ openSpacesFolderBtn.addEventListener("click", () => {
     openSpacesFolderFn();
 });
 
+settingsBtn.addEventListener("click", () => {
+    settingsPopup();
+});
+
 const searchBar = document.getElementById("search");
 const search = new SearchBar(searchBar);
 const spaces = document.querySelector(".spaces");
@@ -355,29 +284,203 @@ function checkTooltipElements() {
         tooltipElement.addEventListener("mouseenter", event => {
             tooltip.innerHTML = tooltipElement.getAttribute("data-tooltip");
             tooltip.classList.remove("hidden");
-    
+
             const tooltipRect = tooltip.getBoundingClientRect();
             const tooltipElementRect = tooltipElement.getBoundingClientRect();
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
-    
+
             let x = tooltipElementRect.x;
             let y = tooltipElementRect.y + tooltipElementRect.height + 5;
-    
+
             if (tooltipElementRect.x + tooltipRect.width > windowWidth) {
                 x = windowWidth - tooltipRect.width - 5;
             }
-    
+
             if (tooltipElementRect.bottom + tooltipRect.height > windowHeight) {
                 y = windowHeight - tooltipRect.height - 5;
             }
-    
+
             tooltip.style.left = x + "px";
             tooltip.style.top = y + "px";
         });
-    
+
         tooltipElement.addEventListener("mouseleave", event => {
             tooltip.classList.add("hidden");
         });
+    });
+}
+
+function createPopup(name, content) {
+    const popupContainer = document.createElement("div");
+    popupContainer.classList.add("popup-container");
+
+    popupContainer.innerHTML = `
+        <div class="popup">
+            <div class="popup-title">
+                <p>${name}</p>
+
+                <button>Close</button>
+            </div>
+            <div class="popup-content"></div>
+        </div>
+    `;
+
+    const popupContent = popupContainer.querySelector(".popup-content");
+
+    popupContent.attachShadow({ mode: "open" });
+    popupContent.shadowRoot.innerHTML = content;
+
+    document.body.appendChild(popupContainer);
+
+    const popup = popupContainer.querySelector(".popup");
+    const popupTitle = popup.querySelector(".popup-title");
+    const popupButton = popupTitle.querySelector("button");
+
+    popupButton.addEventListener("click", () => {
+        const animation = popupContainer.animate([{ opacity: 0 }], { duration: 100, easing: "cubic-bezier(0.25, 1, 0.5, 1)", fill: "forwards" });
+
+        animation.onfinish = () => {
+            popupContainer.remove();
+        }
+    });
+
+    return popupContainer;
+}
+
+function renamePopup(spaceName) {
+    const popupHTML = `
+        <style>
+            :host {
+                display: flex;
+            }
+
+            form {
+                flex: 1 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            button {
+                flex: 1 1;
+                width: 100%;
+                background-color: rgb(255, 255, 255 .25);
+                border: none;
+                padding: 10px 20px;
+                border-radius: 999px;
+                cursor: pointer;
+                transition: background-color .1s ease;
+            }
+
+            button:hover {
+                background-color: rgb(255, 255, 255, .35);
+            }
+
+            input {
+                flex: 1 1;
+                font-family: inherit;
+                display: flex;
+                align-items: center;
+                outline: none;
+                border: 0;
+                border-radius: 999px;
+                background-color: transparent;
+                color: rgb(255, 255, 255);
+                padding: 15px 20px;
+                box-shadow: 0 0 0 1px rgb(255, 255, 255);
+                font-size: 16px;
+                transition: all .25s ease;
+            }
+
+            input:hover {
+                background-color: rgb(255, 255, 255, 0.08);
+            }
+
+            input:focus {
+                background-color: rgb(255, 255, 255, 0.12);
+                box-shadow: 0 0 0 1.5px rgb(255, 255, 255);
+            }
+
+            input::placeholder {
+                color: rgb(255, 255, 255);
+            }
+        </style>
+
+        <form onsubmit="return false">
+            <input id="popup input" type="text" placeholder="Space name" spellcheck="false" autocomplete="off" required>
+            <button type="submit">Confirm</button>
+        </form>
+    `;
+
+    let popupContainer = createPopup(`Rename ${spaceName}`, popupHTML);
+
+    const confirmButton = popupContainer.querySelector("div.popup-content").shadowRoot.querySelector("button");
+    const input = popupContainer.querySelector("div.popup-content").shadowRoot.querySelector("input");
+
+    input.value = spaceName;
+    input.focus();
+
+    confirmButton.addEventListener("click", event => {
+        renameSpaceFn(spaceName, input.value.replace(/ /g, "-"));
+
+        const animation = popupContainer.animate([{ opacity: 0 }], { duration: 100, easing: "cubic-bezier(0.25, 1, 0.5, 1)", fill: "forwards" });
+
+        animation.onfinish = () => {
+            popupContainer.remove();
+            updateSpaces();
+        }
+    });
+}
+
+function deletePopup(spaceName) {
+    const popupHTML = `
+        <style>
+            :host {
+                display: flex;
+            }
+
+            form {
+                flex: 1 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            button {
+                flex: 1 1;
+                background-color: rgb(255, 255, 255 .25);
+                border: none;
+                padding: 10px 20px;
+                border-radius: 999px;
+                cursor: pointer;
+                transition: background-color .1s ease;
+            }
+
+            button:hover {
+                background-color: rgb(255, 255, 255, .35);
+            }
+        </style>
+
+        <form onsubmit="return false">
+            <button type="submit">Confirm</button>
+        </form>
+    `;
+
+    let popupContainer = createPopup(`Delete ${spaceName}`, popupHTML);
+
+    const confirmButton = popupContainer.querySelector("div.popup-content").shadowRoot.querySelector("button");
+
+    confirmButton.addEventListener("click", event => {
+        deleteSpaceFn(spaceName);
+
+        const animation = popupContainer.animate([{ opacity: 0 }], { duration: 100, easing: "cubic-bezier(0.25, 1, 0.5, 1)", fill: "forwards" });
+
+        animation.onfinish = () => {
+            popupContainer.remove();
+            updateSpaces();
+        }
     });
 }

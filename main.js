@@ -111,7 +111,7 @@ else {
         ]);
 
         tray.setToolTip("Space");
-        tray.setTitle("Space");
+        tray.setTitle("Space", { fontType: "monospaced" });
 
         tray.setContextMenu(contextMenu);
 
@@ -205,7 +205,7 @@ else {
         }
 
         ipcMain.handle("codeSpace", async (event, name) => {
-            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
+            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name.replace(/ /g, "-"));
             execute("code " + folderPath, (output) => {
                 return output;
             });
