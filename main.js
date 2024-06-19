@@ -111,7 +111,7 @@ else {
         ]);
 
         tray.setToolTip("Space");
-        tray.setTitle("Space", { fontType: "monospaced" });
+        tray.setTitle("Space");
 
         tray.setContextMenu(contextMenu);
 
