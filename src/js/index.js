@@ -263,10 +263,6 @@ openSpacesFolderBtn.addEventListener("click", () => {
     openSpacesFolderFn();
 });
 
-settingsBtn.addEventListener("click", () => {
-    settingsPopup();
-});
-
 const searchBar = document.getElementById("search");
 const search = new SearchBar(searchBar);
 const spaces = document.querySelector(".spaces");
