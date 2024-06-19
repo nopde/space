@@ -469,6 +469,8 @@ function deletePopup(spaceName) {
 
     const confirmButton = popupContainer.querySelector("div.popup-content").shadowRoot.querySelector("button");
 
+    confirmButton.focus();
+
     confirmButton.addEventListener("click", event => {
         deleteSpaceFn(spaceName);
 
