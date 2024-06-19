@@ -292,6 +292,7 @@ ripple {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, .25);
 }
