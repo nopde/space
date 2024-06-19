@@ -146,22 +146,20 @@ body {
     height: 70px;
     border-radius: 10px;
     margin-bottom: 10px;
-    background-color: rgb(15, 13, 19);
+    background-color: rgb(25, 23, 29);
     box-shadow: 0 0 0 1px rgb(52, 50, 56);
     padding-inline: 15px;
     cursor: pointer;
     outline: none;
     overflow: hidden;
-    transition: margin-bottom .25s ease,
-                min-height .25s ease,
-                height .25s ease,
-                opacity .25s ease,
-                scale .15s ease,
-                margin-inline .15s ease;
-}
+    transition: margin-bottom .25s cubic-bezier(0.25, 1, 0.5, 1),
+                min-height .25s cubic-bezier(0.25, 1, 0.5, 1),
+                height .25s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity .25s cubic-bezier(0.25, 1, 0.5, 1),
+                margin-inline .15s cubic-bezier(0.25, 1, 0.5, 1);
+} 
 
 .spaces .space:hover {
-    background-color: rgb(10, 8, 14);
     box-shadow: 0 0 0 1.5px rgb(208, 188, 255);
     color: rgb(208, 188, 255);
     margin-inline: -5px;
@@ -176,7 +174,6 @@ body {
     min-height: 0;
     height: 0;
     opacity: 0;
-    scale: .95;
 }
 
 .spaces .space p {
