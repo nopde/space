@@ -156,13 +156,13 @@ body {
                 min-height .25s cubic-bezier(0.25, 1, 0.5, 1),
                 height .25s cubic-bezier(0.25, 1, 0.5, 1),
                 opacity .25s cubic-bezier(0.25, 1, 0.5, 1),
-                margin-inline .15s cubic-bezier(0.25, 1, 0.5, 1);
+                transform .1s cubic-bezier(0.25, 1, 0.5, 1);
 } 
 
 .spaces .space:hover {
     box-shadow: 0 0 0 1.5px rgb(208, 188, 255);
     color: rgb(208, 188, 255);
-    margin-inline: -5px;
+    transform: scaleX(1.01);
 }
 
 .spaces .space:last-of-type {
@@ -228,25 +228,21 @@ ripple {
 .tooltip {
     position: absolute;
     z-index: 999;
-    top: 0;
-    left: 0;
     padding: 5px 10px;
-    margin-inline: -1px;
-    border-radius: 5px;
+    border-radius: 999px;
     background-color: white;
     font-size: 14px;
     font-weight: normal;
     color: black;
-    box-shadow: 0 2px 5 rgba(0, 0, 0, .25);
-    transition: all .25s cubic-bezier(0.25, 1, 0.5, 1), opacity .25s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .25);
+    transition: opacity .15s cubic-bezier(0.25, 1, 0.5, 1), scale .15s cubic-bezier(0.25, 1, 0.5, 1);
     text-wrap: nowrap;
     pointer-events: none;
 }
 
 .tooltip.hidden {
     opacity: 0;
-    scale: .75;
-    transition: all .25s cubic-bezier(0.25, 1, 0.5, 1), opacity ease;
+    scale: .95;
 }
 
 @keyframes fadeIn {
