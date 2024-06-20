@@ -30,13 +30,13 @@ const createWindow = () => {
         thickFrame: false,
         icon: img,
         webPreferences: {
-            // devTools: false,
+            devTools: false,
             zoomFactor: 1.0,
-            preload: path.join(app.getAppPath(), "preload.js")
+            preload: path.join(app.getAppPath(), "src/preload/preload.js")
         }
     });
 
-    mainWindow.loadFile("src/index.html");
+    mainWindow.loadFile(path.join(app.getAppPath(), "src/renderer/index.html"));
 }
 
 const exec = require("child_process").exec;
