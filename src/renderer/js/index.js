@@ -103,6 +103,12 @@ const searchBar = document.getElementById("search");
 const search = new SearchBar(searchBar);
 const spaces = document.querySelector(".spaces");
 
+window.electronAPI.onResetScroll(() => {
+    if (spaces) {
+        spaces.scrollTop = 0;
+    }
+});
+
 searchBar.focus();
 
 search.spaceSearch(spaces);

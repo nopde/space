@@ -56,6 +56,7 @@ else {
             if (mainWindow.isMinimized()) mainWindow.restore();
             mainWindow.show();
             mainWindow.focus();
+            mainWindow.webContents.send("reset-scroll");
         }
     });
 
@@ -64,6 +65,7 @@ else {
 
         mainWindow.on("show", () => {
             mainWindow.webContents.zoomFactor = 1.0;
+            mainWindow.webContents.send("reset-scroll");
         });
 
         autoUpdater.on("update-available", (event) => {
