@@ -5,7 +5,7 @@ export class SearchBar {
         this.itemNames = [];
     }
 
-    spaceSearch(spaceContainer) {
+    initialize(spaceContainer) {
         this.inputElement.addEventListener("input", (event) => {
             this.itemList.splice(0, this.itemList.length);
             this.itemList = Array.from(spaceContainer.querySelectorAll(".space"));
