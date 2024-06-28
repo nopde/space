@@ -3,11 +3,15 @@ export function checkTooltipElements() {
     const tooltips = document.querySelector(".tooltips");
 
     tooltipElements.forEach(tooltipElement => {
+        tooltipElement.removeAttribute("tooltip");
+
         const tooltip = document.createElement("div");
         tooltip.classList.add("tooltip");
         tooltip.classList.add("hidden");
 
         tooltip.innerHTML = tooltipElement.getAttribute("data-tooltip");
+
+        tooltipElement.removeAttribute("data-tooltip");
 
         tooltips.appendChild(tooltip);
 
