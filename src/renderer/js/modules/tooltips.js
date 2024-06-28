@@ -17,15 +17,15 @@ export function checkTooltipElements() {
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
 
-            let x = tooltipElementRect.x + Math.round(tooltipElementRect.width) / 2 - Math.round(tooltipRect.width) / 2;
-            let y = tooltipElementRect.y + tooltipElementRect.height + 5;
+            let x = Math.round(tooltipElementRect.x) + Math.round(tooltipElementRect.width) / 2 - Math.round(tooltipRect.width) / 2;
+            let y = Math.round(tooltipElementRect.y) + Math.round(tooltipElementRect.height) + 5;
 
             if (x > windowWidth) {
-                x = windowWidth - tooltipRect.width - 5;
+                x = windowWidth - Math.round(tooltipRect.width) - 5;
             }
 
-            if (tooltipElementRect.bottom + tooltipRect.height + 5 > windowHeight) {
-                y = windowHeight - tooltipRect.height - 5;
+            if (tooltipElementRect.bottom + Math.round(tooltipRect.height) + 5 > windowHeight) {
+                y = windowHeight - Math.round(tooltipRect.height) - 5;
             }
 
             tooltip.style.left = x + "px";
