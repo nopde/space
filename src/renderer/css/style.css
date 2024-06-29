@@ -1,5 +1,28 @@
 @font-face {
-    font-family: "Inter";
+    font-family: "Material Symbols Outlined";
+    font-style: normal;
+    font-weight: 100 700;
+    font-display: swap;
+    src: url("../fonts/material-symbols.woff2") format("woff2");
+}
+
+.material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+    font-family: "Inter", sans-serif;
     font-display: swap;
     src: url("../fonts/inter.ttf");
 }
@@ -19,8 +42,17 @@ html {
 body {
     font-size: 18px;
     font-weight: 500;
-    background-color: transparent;
+    background-color: rgb(20, 18, 24);
     overflow: hidden;
+}
+
+@keyframes unBlur {
+    from {
+        filter: blur(100px);
+    }
+    to {
+        filter: blur(0px);
+    }
 }
 
 .wrapper {
@@ -28,6 +60,8 @@ body {
     flex-direction: column;
     height: 100dvh;
     border: 1px solid rgb(52, 50, 56);
+    filter: blur(100px);
+    animation: unBlur .25s .25s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .titlebar {
@@ -205,7 +239,7 @@ ripple-surface {
 
 ripple {
     position: absolute;
-    background: radial-gradient(closest-side, rgba(208, 188, 255, 0.24) max(100% - 70px, 65%), transparent 100%);
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.12) max(100% - 70px, 65%), transparent 100%);
     border-radius: 100%;
     scale: .2;
     translate: -50% -50%;

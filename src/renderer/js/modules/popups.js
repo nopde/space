@@ -42,6 +42,10 @@ export function createPopup(name, content) {
 export function renamePopup(spaceName) {
     const popupHTML = `
         <style>
+            * {
+                font-family: "Inter", sans-serif;
+            }
+
             :host {
                 display: flex;
             }
@@ -129,6 +133,10 @@ export function renamePopup(spaceName) {
 export function deletePopup(spaceName) {
     const popupHTML = `
         <style>
+            * {
+                font-family: "Inter", sans-serif;
+            }
+        
             :host {
                 display: flex;
             }
