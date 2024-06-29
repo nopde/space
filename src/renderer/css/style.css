@@ -22,7 +22,7 @@
 }
 
 @font-face {
-    font-family: "Inter", sans-serif;
+    font-family: "Inter";
     font-display: swap;
     src: url("../fonts/inter.ttf");
 }
@@ -47,9 +47,6 @@ body {
 }
 
 @keyframes unBlur {
-    from {
-        filter: blur(100px);
-    }
     to {
         filter: blur(0px);
     }
@@ -60,7 +57,7 @@ body {
     flex-direction: column;
     height: 100dvh;
     border: 1px solid rgb(52, 50, 56);
-    filter: blur(100px);
+    filter: blur(1000px);
     animation: unBlur .25s .25s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
@@ -196,7 +193,7 @@ body {
 .spaces .space:hover {
     box-shadow: 0 0 0 1.5px rgb(208, 188, 255);
     color: rgb(208, 188, 255);
-    transform: scaleX(1.01);
+    transform: scale(1.01);
 }
 
 .spaces .space:last-of-type {
