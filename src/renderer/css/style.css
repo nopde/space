@@ -164,6 +164,7 @@ body {
     flex-direction: column;
     overflow: auto;
     padding: 15px;
+    padding-bottom: 30px;
     padding-left: 30px;
     scrollbar-gutter: stable;
     background-color: rgb(20, 18, 24);
