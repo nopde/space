@@ -97,7 +97,7 @@ body {
     color: rgb(208, 188, 255);
     padding: 5px 10px;
     box-shadow: 0 0 0 1px rgb(147, 143, 153);
-    transition: all .25s ease;
+    transition: all .25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .topbar .search:hover {
@@ -144,7 +144,7 @@ body {
     background-color: transparent;
     color: inherit;
     overflow: hidden;
-    transition: all .25s ease, color 0s;
+    transition: all .25s cubic-bezier(0.25, 1, 0.5, 1), color 0s;
 }
 
 .titlebar button {
@@ -242,7 +242,7 @@ ripple {
     scale: .2;
     translate: -50% -50%;
     animation: grow .35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    transition: opacity .25s ease;
+    transition: opacity .25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 ::-webkit-scrollbar {
@@ -268,7 +268,7 @@ ripple {
     color: black;
     text-wrap: nowrap;
     pointer-events: none;
-    transition: opacity .1s ease, translate .1s ease;
+    transition: opacity .1s cubic-bezier(0.25, 1, 0.5, 1), translate .1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .tooltip::before {
@@ -282,7 +282,7 @@ ripple {
     width: 100%;
     height: 100%;
     border-radius: 999px;
-    transition: opacity .25s ease, scale .25s ease;
+    transition: opacity .25s cubic-bezier(0.25, 1, 0.5, 1), scale .25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .tooltip.hidden {
@@ -374,7 +374,7 @@ ripple {
     padding: 10px 20px;
     border-radius: 999px;
     cursor: pointer;
-    transition: background-color .1s ease;
+    transition: background-color .1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .popup-title button:hover {
