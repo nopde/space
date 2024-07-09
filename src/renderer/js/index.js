@@ -1,4 +1,4 @@
-import { renamePopup, deletePopup } from "./modules/popups.js";
+import { renameModal, deleteModal } from "./modules/modals.js";
 import { checkRippleElements } from "./modules/ripples.js";
 import { checkTooltipElements } from "./modules/tooltips.js";
 import { SearchBar } from "./modules/searchbar.js";
@@ -45,12 +45,12 @@ const updateSpaces = async () => {
         const openFolderBtn = document.getElementById(`${spaceName} openFolder`);
 
         renameBtn.addEventListener("click", (event) => {
-            renamePopup(spaceName);
+            renameModal(spaceName);
             event.stopPropagation();
         });
 
         deleteBtn.addEventListener("click", (event) => {
-            deletePopup(spaceName);
+            deleteModal(spaceName);
             event.stopPropagation();
         });
 
