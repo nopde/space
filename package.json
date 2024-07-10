@@ -2,7 +2,7 @@
     "author": "nopde",
     "repository": "https://github.com/nopde/space",
     "name": "space",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "description": "Windows VSCode Project Manager",
     "license": "MIT",
     "main": "src/main/main.js",
