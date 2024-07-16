@@ -187,6 +187,9 @@ function createModal(name, content) {
 
 // Custom modals
 
+import { renameSpaceFn, deleteSpaceFn } from "./preload_functions.js";
+import { updateSpaces } from "./spaces.js";
+
 export function renameModal(spaceName) {
     const modalHTML = `
         <style>
