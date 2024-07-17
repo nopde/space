@@ -188,13 +188,13 @@ body {
                 min-height .25s cubic-bezier(0.25, 1, 0.5, 1),
                 height .25s cubic-bezier(0.25, 1, 0.5, 1),
                 opacity .25s cubic-bezier(0.25, 1, 0.5, 1),
-                transform .1s cubic-bezier(0.25, 1, 0.5, 1);
+                box-shadow .15s cubic-bezier(0.25, 1, 0.5, 1);
 } 
 
 .spaces .space:hover {
-    box-shadow: 0 0 0 1.5px rgb(208, 188, 255);
+    background-color: rgb(35, 33, 39);
+    box-shadow: 0 0 0 2px rgb(208, 188, 255), 0 0 25px -10px rgb(208, 188, 255);
     color: rgb(208, 188, 255);
-    transform: scale(1.01);
 }
 
 .spaces .space:last-of-type {
