@@ -71,19 +71,23 @@ else {
         autoUpdater.on("update-available", (event) => {
             const dialogOpts = {
                 type: "info",
-                buttons: ["Ok"],
-                title: "Space Update",
-                detail: "A new version is available and will be downloaded."
+                buttons: ["Download now", "Remind me later"],
+                title: "Space Updater",
+                detail: "A new version is available."
             }
 
-            dialog.showMessageBox(dialogOpts);
+            dialog.showMessageBox(dialogOpts).then((returnValue) => {
+                if (returnValue.response === 0) {
+                    autoUpdater.downloadUpdate();
+                }
+            });
         });
 
         autoUpdater.on("update-downloaded", (event) => {
             const dialogOpts = {
                 type: "info",
                 buttons: ["Install now", "Install later"],
-                title: "Space Update",
+                title: "Space Updater",
                 detail: "A new version has been downloaded. Restart the application to apply the updates."
             }
 
@@ -95,6 +99,7 @@ else {
             });
         });
 
+        autoUpdater.autoDownload = false;
         autoUpdater.checkForUpdates();
 
         mainWindow.on("close", function (event) {
