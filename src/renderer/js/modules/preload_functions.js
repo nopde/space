@@ -42,3 +42,7 @@ export async function getSpaces() {
         throw error;
     }
 }
+
+export const openTerminalFn = async (name = "") => {
+    await window.electronAPI.openTerminal(name);
+}

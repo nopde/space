@@ -1,5 +1,5 @@
 import { SearchBar } from "./modules/searchbar.js";
-import { createSpaceFolder, createSpaceFn, openSpacesFolderFn } from "./modules/preload_functions.js";
+import { createSpaceFolder, createSpaceFn, openSpacesFolderFn, openTerminalFn } from "./modules/preload_functions.js";
 import { updateSpaces } from "./modules/spaces.js";
 
 // Variables
@@ -9,6 +9,7 @@ const minimizeBtn = document.getElementById("minimize");
 const createSpaceBtn = document.getElementById("create");
 const refreshSpacesBtn = document.getElementById("refresh");
 const openSpacesFolderBtn = document.getElementById("openFolder");
+const terminalBtn = document.getElementById("terminal");
 const searchBar = document.getElementById("search");
 const search = new SearchBar(searchBar);
 const spaces = document.querySelector(".spaces");
@@ -38,6 +39,10 @@ refreshSpacesBtn.addEventListener("click", () => {
 
 openSpacesFolderBtn.addEventListener("click", () => {
     openSpacesFolderFn();
+});
+
+terminalBtn.addEventListener("click", () => {
+    openTerminalFn();
 });
 
 // Initialization

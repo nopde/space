@@ -1,7 +1,7 @@
 import { renameModal, deleteModal } from "./modals.js";
 import { checkRippleElements } from "./ripples.js";
 import { checkTooltipElements } from "./tooltips.js";
-import { codeSpaceFn, openSpaceFolderFn, getSpaces } from "./preload_functions.js";
+import { codeSpaceFn, openSpaceFolderFn, getSpaces, openTerminalFn } from "./preload_functions.js";
 
 export const updateSpaces = async () => {
     const spaces = await getSpaces();
@@ -16,6 +16,7 @@ export const updateSpaces = async () => {
                 <button id="${spaceName} rename" tooltip data-tooltip="Edit" ripple><span class="material-symbols-outlined">edit</span></button>
                 <button id="${spaceName} delete" tooltip data-tooltip="Delete" ripple><span class="material-symbols-outlined">delete</span></button>
                 <button id="${spaceName} openFolder" tooltip data-tooltip="Open folder" ripple><span class="material-symbols-outlined">folder</span></button>
+                <button id="${spaceName} openTerminal" tooltip data-tooltip="Open terminal" ripple><span class="material-symbols-outlined">terminal</span></button>
             </div>
         `
         const spaceContainer = document.createElement("div");
@@ -29,6 +30,7 @@ export const updateSpaces = async () => {
         const renameBtn = document.getElementById(`${spaceName} rename`);
         const deleteBtn = document.getElementById(`${spaceName} delete`);
         const openFolderBtn = document.getElementById(`${spaceName} openFolder`);
+        const openTerminalBtn = document.getElementById(`${spaceName} openTerminal`);
 
         renameBtn.addEventListener("click", (event) => {
             renameModal(spaceName);
@@ -42,6 +44,11 @@ export const updateSpaces = async () => {
 
         openFolderBtn.addEventListener("click", (event) => {
             openSpaceFolderFn(spaceName);
+            event.stopPropagation();
+        });
+
+        openTerminalBtn.addEventListener("click", (event) => {
+            openTerminalFn(spaceName);
             event.stopPropagation();
         });
 

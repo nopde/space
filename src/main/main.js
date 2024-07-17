@@ -224,6 +224,13 @@ else {
             });
         });
 
+        ipcMain.handle("openTerminal", async (event, name) => {
+            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
+            execute(`start "" /D "${folderPath}"`, (output) => {
+                return output;
+            });
+        });
+
         ipcMain.handle("quit", (event) => {
             app.quit();
         });
