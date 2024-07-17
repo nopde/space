@@ -26,8 +26,6 @@ const createWindow = () => {
         resizable: false,
         maximizable: false,
         fullscreenable: false,
-        roundedCorners: false,
-        thickFrame: false,
         icon: img,
         webPreferences: {
             devTools: false,
