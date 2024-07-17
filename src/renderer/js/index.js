@@ -1,11 +1,13 @@
 import { SearchBar } from "./modules/searchbar.js";
 import { createSpaceFolder, createSpaceFn, openSpacesFolderFn, openTerminalFn } from "./modules/preload_functions.js";
 import { updateSpaces } from "./modules/spaces.js";
+import { initializeConfig } from "./modules/config.js";
 
 // Variables
 
 const quitBtn = document.getElementById("quit");
 const minimizeBtn = document.getElementById("minimize");
+const configBtn = document.getElementById("config");
 const createSpaceBtn = document.getElementById("create");
 const refreshSpacesBtn = document.getElementById("refresh");
 const openSpacesFolderBtn = document.getElementById("openFolder");
@@ -56,6 +58,8 @@ window.electronAPI.onResetScroll(() => {
 searchBar.focus();
 
 search.initialize(spaces);
+
+initializeConfig(configBtn);
 
 createSpaceFolder();
 updateSpaces();

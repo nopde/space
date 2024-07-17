@@ -249,3 +249,23 @@ export function deleteModal(spaceName) {
         }
     });
 }
+
+export function settingsModal() {
+    const modalHTML = `
+        <button class="modal-button" type="submit">Confirm</button>
+    `;
+
+    let modalContainer = createModal("Settings", modalHTML);
+
+    const confirmButton = modalContainer.shadowRoot.querySelector("div.modal-content").shadowRoot.querySelector("button");
+
+    confirmButton.focus();
+
+    confirmButton.addEventListener("click", event => {
+        const animation = modalContainer.animate([{ opacity: 0 }], { duration: 100, easing: "cubic-bezier(0.25, 1, 0.5, 1)", fill: "forwards" });
+
+        animation.onfinish = () => {
+            modalContainer.remove();
+        }
+    });
+}
