@@ -108,15 +108,15 @@ else {
         tray = new Tray(img);
 
         const contextMenu = Menu.buildFromTemplate([
-            { label: "Space", type: "normal", enabled: false },
+            { label: `Space (v${app.getVersion()})`, type: "normal", enabled: false, icon: img.resize({ width: 16, height: 16 }) },
             { type: "separator" },
             { label: "Show", type: "normal", click: function () { mainWindow.show(); } },
+            { label: "Check for updates", type: "normal", click: function () { autoUpdater.checkForUpdates(); } },
             { type: "separator" },
             { label: "Quit Space", type: "normal", click: function () { mainWindow.destroy(); app.quit(); } }
         ]);
 
-        tray.setToolTip("Space");
-        tray.setTitle("Space");
+        tray.setToolTip(`Space (v${app.getVersion()})`);
 
         tray.setContextMenu(contextMenu);
 
