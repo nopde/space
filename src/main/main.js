@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage } = require("electron/main");
 const { shell, dialog } = require("electron");
 const { autoUpdater } = require("electron-updater");
+const linguist = require("linguist-js");
 const fs = require("original-fs");
 const fs_promises = require("original-fs").promises;
 const path = require("node:path");
@@ -290,6 +291,13 @@ else {
 
         ipcMain.handle("openExternalURL", (event, url) => {
             shell.openExternal(url);
+        });
+
+        ipcMain.handle("getGitStats", async (event, name) => {
+            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
+            const result = await linguist(folderPath);
+
+            return result;
         });
 
         ipcMain.handle("quit", (event) => {

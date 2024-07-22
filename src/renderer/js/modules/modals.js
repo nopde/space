@@ -1,4 +1,4 @@
-import { renameSpaceFn, deleteSpaceFn, getSpaceWeightFn, getGithubBranchFn, getGithubRepoFn, openExternalURLFn } from "./preload_functions.js";
+import { renameSpaceFn, deleteSpaceFn, getSpaceWeightFn, getGithubBranchFn, getGithubRepoFn, openExternalURLFn, getGitStatsFn } from "./preload_functions.js";
 import { updateSpaces } from "./spaces.js";
 
 function createModal(name, content) {
@@ -52,7 +52,7 @@ function createModal(name, content) {
                 border-radius: 10px;
                 padding: 20px;
                 min-width: 300px;
-                max-width: 600px;
+                max-width: 400px;
                 display: flex;
                 flex-direction: column;
                 scale: .9;
@@ -276,6 +276,22 @@ export async function infoModal(spaceName) {
                 text-decoration-style: dotted;
                 color: rgb(208, 188, 255);
             }
+
+            .additional-info .git-stats {
+                margin-inline: auto;
+                margin-top: 10px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .additional-info .git-stats span {
+                flex-grow: 1;
+                padding: 5px 10px;
+                border-radius: 999px;
+                color: black;
+                font-size: 14px;
+            }
         </style>
 
         <div class="additional-info">
@@ -283,6 +299,7 @@ export async function infoModal(spaceName) {
             <div class="github-info">
                 <p>Repository: <a id="github">Loading...</a></p>
                 <p id="branch-paragraph">Branch: <a id="branch">Loading...</a></p>
+                <div class="git-stats"></div>
             </div>
         </div>
     `;
@@ -309,10 +326,22 @@ export async function infoModal(spaceName) {
     const githubAnchor = githubContainer.querySelector("#github");
     const branchAnchor = githubContainer.querySelector("#branch");
     const branchParagraph = githubContainer.querySelector("#branch-paragraph");
+    const gitStatsContainer = githubContainer.querySelector(".git-stats");
 
     const githubRepo = await getGithubRepoFn(spaceName);
 
     githubAnchor.innerHTML = githubRepo;
+
+    const gitStats = await getGitStatsFn(spaceName);
+    const languages = gitStats["languages"]["results"];
+
+    for (const language in languages) {
+        const languageElement = document.createElement("span");
+        languageElement.style.backgroundColor = languages[language]["color"];
+        languageElement.innerHTML = `${language}`;
+
+        gitStatsContainer.appendChild(languageElement);
+    }
 
     if (githubRepo === "Git repository not found") {
         branchParagraph.remove();
