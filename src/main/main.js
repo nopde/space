@@ -234,6 +234,64 @@ else {
             });
         });
 
+        ipcMain.handle("getSpaceWeight", async (event, name) => {
+            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
+
+            return new Promise((resolve, reject) => {
+                exec(`powershell -command "$totalsize=[long]0;gci -File '${folderPath}' -r -fo -ea Silent|%{$totalsize+=$_.Length};$totalsize"`, (error, stdout, stderr) => {
+                    if (error) {
+                        reject(error);
+                        return;
+                    }
+                    if (stderr) {
+                        reject(stderr);
+                        return;
+                    }
+                    resolve(stdout.trim());
+                });
+            });
+        });
+
+        ipcMain.handle("getGithubRepo", async (event, name) => {
+            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
+
+            return new Promise((resolve, reject) => {
+                exec("git config --get remote.origin.url", { cwd: folderPath }, (error, stdout, stderr) => {
+                    if (error) {
+                        resolve("Git repository not found");
+                        return;
+                    }
+                    if (stderr) {
+                        resolve("Git repository not found");
+                        return;
+                    }
+                    resolve(stdout.trim());
+                });
+            });
+        });
+
+        ipcMain.handle("getGithubBranch", async (event, name) => {
+            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
+
+            return new Promise((resolve, reject) => {
+                exec("git rev-parse --abbrev-ref HEAD", { cwd: folderPath }, (error, stdout, stderr) => {
+                    if (error) {
+                        resolve("Git repository not found");
+                        return;
+                    }
+                    if (stderr) {
+                        resolve("Git repository not found");
+                        return;
+                    }
+                    resolve(stdout.trim());
+                });
+            });
+        });
+
+        ipcMain.handle("openExternalURL", (event, url) => {
+            shell.openExternal(url);
+        });
+
         ipcMain.handle("quit", (event) => {
             app.quit();
         });

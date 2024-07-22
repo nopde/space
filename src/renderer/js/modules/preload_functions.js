@@ -46,3 +46,40 @@ export async function getSpaces() {
 export const openTerminalFn = async (name = "") => {
     await window.electronAPI.openTerminal(name);
 }
+
+export const getSpaceWeightFn = async (name) => {
+    try {
+        const weight = await window.electronAPI.getSpaceWeight(name);
+        return weight;
+    }
+    catch (error) {
+        console.error("Error fetching space weight:", error);
+        throw error;
+    }
+}
+
+export const getGithubRepoFn = async (name) => {
+    try {
+        const repo = await window.electronAPI.getGithubRepo(name);
+        return repo;
+    }
+    catch (error) {
+        console.error("Error fetching GitHub repo:", error);
+        throw error;
+    }
+}
+
+export const getGithubBranchFn = async (name) => {
+    try {
+        const branch = await window.electronAPI.getGithubBranch(name);
+        return branch;
+    }
+    catch (error) {
+        console.error("Error fetching GitHub branch:", error);
+        throw error;
+    }
+}
+
+export const openExternalURLFn = async (url) => {
+    await window.electronAPI.openExternalURL(url);
+}
