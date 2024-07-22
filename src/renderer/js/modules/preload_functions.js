@@ -83,3 +83,14 @@ export const getGithubBranchFn = async (name) => {
 export const openExternalURLFn = async (url) => {
     await window.electronAPI.openExternalURL(url);
 }
+
+export const getGitStatsFn = async (name) => {
+    try {
+        const stats = await window.electronAPI.getGitStats(name);
+        return stats;
+    }
+    catch (error) {
+        console.error("Error fetching Git stats:", error);
+        throw error;
+    }
+}
