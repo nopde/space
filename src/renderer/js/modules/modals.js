@@ -1,3 +1,6 @@
+import { renameSpaceFn, deleteSpaceFn, getSpaceWeightFn, getGithubBranchFn, getGithubRepoFn, openExternalURLFn } from "./preload_functions.js";
+import { updateSpaces } from "./spaces.js";
+
 function createModal(name, content) {
     const modalContainer = document.createElement("div");
     modalContainer.classList.add("modal-container");
@@ -49,6 +52,7 @@ function createModal(name, content) {
                 border-radius: 10px;
                 padding: 20px;
                 min-width: 300px;
+                max-width: 600px;
                 display: flex;
                 flex-direction: column;
                 scale: .9;
@@ -187,9 +191,6 @@ function createModal(name, content) {
 
 // Custom modals
 
-import { renameSpaceFn, deleteSpaceFn } from "./preload_functions.js";
-import { updateSpaces } from "./spaces.js";
-
 export function renameModal(spaceName) {
     const modalHTML = `
         <style>
@@ -248,4 +249,87 @@ export function deleteModal(spaceName) {
             updateSpaces();
         }
     });
+}
+
+export async function infoModal(spaceName) {
+    const modalHTML = `
+        <style>
+            .additional-info {
+                margin-top: 5px;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                font-size: 16px;
+                font-weight: normal;
+            }
+
+            .additional-info #weight {
+                padding: 5px 10px;
+                border-radius: 999px;
+                background-color: rgba(255, 255, 255, .25);
+            }
+
+            .additional-info .github-info a {
+                text-decoration: underline;
+                text-underline-offset: 3px;
+                text-decoration-thickness: 1px;
+                text-decoration-style: dotted;
+                color: rgb(208, 188, 255);
+            }
+        </style>
+
+        <div class="additional-info">
+            <p>Weight: <span id="weight">Loading...</span></p>
+            <div class="github-info">
+                <p>Repository: <a id="github">Loading...</a></p>
+                <p id="branch-paragraph">Branch: <a id="branch">Loading...</a></p>
+            </div>
+        </div>
+    `;
+
+    const modalContainer = createModal(spaceName, modalHTML);
+
+    const weightSpan = modalContainer.shadowRoot.querySelector(".modal-content").shadowRoot.getElementById("weight");
+    const weight = await getSpaceWeightFn(spaceName);
+    let fixedWeight = (weight / (1024 * 1024)).toFixed(2);
+    
+    if (fixedWeight <= 0.00) {
+        fixedWeight = (weight / 1024).toFixed(2);
+        weightSpan.innerHTML = `${fixedWeight} KB`;
+    }
+    else if (fixedWeight <= 1024) {
+        weightSpan.innerHTML = `${fixedWeight} MB`;
+    }
+    else {
+        fixedWeight = (weight / (1024 * 1024 * 1024)).toFixed(2);
+        weightSpan.innerHTML = `${fixedWeight} GB`;
+    }
+
+    const githubContainer = modalContainer.shadowRoot.querySelector(".modal-content").shadowRoot.querySelector(".github-info");
+    const githubAnchor = githubContainer.querySelector("#github");
+    const branchAnchor = githubContainer.querySelector("#branch");
+    const branchParagraph = githubContainer.querySelector("#branch-paragraph");
+
+    const githubRepo = await getGithubRepoFn(spaceName);
+
+    githubAnchor.innerHTML = githubRepo;
+
+    if (githubRepo === "Git repository not found") {
+        branchParagraph.remove();
+        branchAnchor.remove();
+        return;
+    }
+
+    githubAnchor.setAttribute("href", githubRepo);
+    githubAnchor.setAttribute("target", "_blank");
+
+    githubAnchor.addEventListener("click", event => {
+        event.preventDefault();
+        
+        openExternalURLFn(githubRepo);
+    });
+
+    const githubBranch = await getGithubBranchFn(spaceName);
+
+    branchAnchor.innerHTML = githubBranch;
 }
