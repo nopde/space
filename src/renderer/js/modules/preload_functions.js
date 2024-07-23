@@ -94,3 +94,14 @@ export const getGitStatsFn = async (name) => {
         throw error;
     }
 }
+
+export const getGithubProjectsURLFn = async (name) => {
+    try {
+        const url = await window.electronAPI.getGithubProjectsURL(name);
+        return url;
+    }
+    catch (error) {
+        console.error("Error fetching GitHub projects URL:", error);
+        throw error;
+    }
+}

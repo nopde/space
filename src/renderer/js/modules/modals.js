@@ -1,4 +1,4 @@
-import { renameSpaceFn, deleteSpaceFn, getSpaceWeightFn, getGithubBranchFn, getGithubRepoFn, openExternalURLFn, getGitStatsFn } from "./preload_functions.js";
+import { renameSpaceFn, deleteSpaceFn, getSpaceWeightFn, getGithubBranchFn, getGithubRepoFn, openExternalURLFn, getGitStatsFn, getGithubProjectsURLFn } from "./preload_functions.js";
 import { updateSpaces } from "./spaces.js";
 
 function createModal(name, content) {
@@ -269,16 +269,31 @@ export async function infoModal(spaceName) {
                 background-color: rgba(255, 255, 255, .25);
             }
 
+            .additional-info .github-info {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+
             .additional-info .github-info a {
+                text-decoration: none;
+                color: rgb(208, 188, 255);
+            }
+
+            .additional-info .github-info a[href] {
                 text-decoration: underline;
                 text-underline-offset: 3px;
                 text-decoration-thickness: 1px;
                 text-decoration-style: dotted;
-                color: rgb(208, 188, 255);
+                transition: color .15s cubic-bezier(0.25, 1, 0.5, 1);
+            }
+
+            .additional-info .github-info a[href]:hover {
+                color: rgb(228, 208, 255);
             }
 
             .additional-info .git-stats {
-                margin-inline: auto;
+                width: 100%;
                 margin-top: 10px;
                 display: flex;
                 flex-wrap: wrap;
@@ -291,6 +306,7 @@ export async function infoModal(spaceName) {
                 border-radius: 999px;
                 color: black;
                 font-size: 14px;
+                text-align: center;
             }
         </style>
 
@@ -299,6 +315,7 @@ export async function infoModal(spaceName) {
             <div class="github-info">
                 <p>Repository: <a id="github">Loading...</a></p>
                 <p id="branch-paragraph">Branch: <a id="branch">Loading...</a></p>
+                <p id="github-projects-paragraph">Projects: <a id="github-projects">Loading...</a></p>
                 <div class="git-stats"></div>
             </div>
         </div>
@@ -327,6 +344,8 @@ export async function infoModal(spaceName) {
     const branchAnchor = githubContainer.querySelector("#branch");
     const branchParagraph = githubContainer.querySelector("#branch-paragraph");
     const gitStatsContainer = githubContainer.querySelector(".git-stats");
+    const githubProjectsAnchor = githubContainer.querySelector("#github-projects");
+    const githubProjectsParagraph = githubContainer.querySelector("#github-projects-paragraph");
 
     const githubRepo = await getGithubRepoFn(spaceName);
 
@@ -346,6 +365,8 @@ export async function infoModal(spaceName) {
     if (githubRepo === "Git repository not found") {
         branchParagraph.remove();
         branchAnchor.remove();
+        githubProjectsParagraph.remove();
+        githubProjectsAnchor.remove();
         return;
     }
 
@@ -356,6 +377,19 @@ export async function infoModal(spaceName) {
         event.preventDefault();
         
         openExternalURLFn(githubRepo);
+    });
+
+    const githubProjectsURL = await getGithubProjectsURLFn(spaceName);
+
+    githubProjectsAnchor.innerHTML = "Open projects";
+
+    githubProjectsAnchor.setAttribute("href", githubProjectsURL);
+    githubProjectsAnchor.setAttribute("target", "_blank");
+
+    githubProjectsAnchor.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        openExternalURLFn(githubProjectsURL);  
     });
 
     const githubBranch = await getGithubBranchFn(spaceName);

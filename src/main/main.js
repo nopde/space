@@ -300,6 +300,32 @@ else {
             return result;
         });
 
+        ipcMain.handle("getGithubProjectsURL", async (event, name) => {
+            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
+            
+            return new Promise((resolve, reject) => {
+                exec("git config --get remote.origin.url", { cwd: folderPath }, (error, stdout, stderr) => {
+                    if (error) {
+                        resolve("GitHub projects URL not found");
+                        return;
+                    }
+                    if (stderr) {
+                        resolve("GitHub projects URL not found");
+                        return;
+                    }
+                    const remoteURL = stdout.trim();
+                    
+                    if (remoteURL.startsWith("https://github.com/")) {
+                        const githubProjectsURL = `${remoteURL}/projects`;
+                        resolve(githubProjectsURL);
+                        return;
+                    }
+                    
+                    resolve("Remote URL is not a GitHub repository");
+                });
+            });
+        });
+
         ipcMain.handle("quit", (event) => {
             app.quit();
         });
