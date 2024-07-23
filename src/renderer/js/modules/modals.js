@@ -48,7 +48,8 @@ function createModal(name, content) {
             }
 
             .modal {
-                background-color: rgb(255, 255, 255, .25);
+                background-color: rgb(255, 255, 255, .1);
+                border: 1px solid rgba(255, 255, 255, .1);
                 border-radius: 10px;
                 padding: 20px;
                 min-width: 300px;
@@ -65,7 +66,9 @@ function createModal(name, content) {
                 justify-content: space-between;
                 gap: 10px;
                 padding-bottom: 10px;
-                border-bottom: 1px solid rgba(255, 255, 255, .25);
+                margin-inline: -20px;
+                padding-inline: 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, .1);
             }
 
             .modal-title p {
@@ -81,7 +84,7 @@ function createModal(name, content) {
             .modal-title button {
                 width: max-content;
                 height: max-content;
-                background-color: rgb(255, 255, 255, .25);
+                background-color: rgb(255, 255, 255, .1);
                 border: none;
                 padding: 10px 20px;
                 border-radius: 999px;
@@ -90,13 +93,16 @@ function createModal(name, content) {
             }
 
             .modal-title button:hover {
-                background-color: rgb(255, 255, 255, .35);
+                background-color: rgb(255, 255, 255, .2);
             }
 
             .modal-content {
-                padding-top: 10px;
+                padding: 10px;
+                padding-top: 20px;
                 font-size: 16px;
                 font-weight: normal;
+                max-height: 400px;
+                overflow-y: auto;
             }
         </style>
 
@@ -307,6 +313,7 @@ export async function infoModal(spaceName) {
                 color: black;
                 font-size: 14px;
                 text-align: center;
+                border: 1px solid rgba(255, 255, 255, .1);
             }
         </style>
 
@@ -326,7 +333,7 @@ export async function infoModal(spaceName) {
     const weightSpan = modalContainer.shadowRoot.querySelector(".modal-content").shadowRoot.getElementById("weight");
     const weight = await getSpaceWeightFn(spaceName);
     let fixedWeight = (weight / (1024 * 1024)).toFixed(2);
-    
+
     if (fixedWeight <= 0.00) {
         fixedWeight = (weight / 1024).toFixed(2);
         weightSpan.innerHTML = `${fixedWeight} KB`;
@@ -356,7 +363,13 @@ export async function infoModal(spaceName) {
 
     for (const language in languages) {
         const languageElement = document.createElement("span");
-        languageElement.style.backgroundColor = languages[language]["color"];
+
+        const hexToRGBArray = hex => hex.match(/[A-Za-z0-9]{2}/g).map(v => parseInt(v, 16));
+
+        const rgb = hexToRGBArray(languages[language]["color"]);
+        const rgba = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, .75)`;
+
+        languageElement.style.backgroundColor = rgba;
         languageElement.innerHTML = `${language}`;
 
         gitStatsContainer.appendChild(languageElement);
@@ -375,7 +388,7 @@ export async function infoModal(spaceName) {
 
     githubAnchor.addEventListener("click", event => {
         event.preventDefault();
-        
+
         openExternalURLFn(githubRepo);
     });
 
@@ -389,7 +402,7 @@ export async function infoModal(spaceName) {
     githubProjectsAnchor.addEventListener("click", async (event) => {
         event.preventDefault();
 
-        openExternalURLFn(githubProjectsURL);  
+        openExternalURLFn(githubProjectsURL);
     });
 
     const githubBranch = await getGithubBranchFn(spaceName);
