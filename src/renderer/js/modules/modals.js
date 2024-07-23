@@ -69,7 +69,7 @@ function createModal(name, content) {
             }
 
             .modal-title p {
-                max-width: 200px;
+                width: max-content;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 word-break: keep-all;
