@@ -310,10 +310,11 @@ export async function infoModal(spaceName) {
                 flex-grow: 1;
                 padding: 5px 10px;
                 border-radius: 999px;
-                color: black;
+                color: white;
                 font-size: 14px;
                 text-align: center;
                 border: 1px solid rgba(255, 255, 255, .1);
+                background-color: rgba(255, 255, 255, .1);
             }
         </style>
 
@@ -364,12 +365,49 @@ export async function infoModal(spaceName) {
     for (const language in languages) {
         const languageElement = document.createElement("span");
 
-        const hexToRGBArray = hex => hex.match(/[A-Za-z0-9]{2}/g).map(v => parseInt(v, 16));
+        function hexToRgb(hex) {
+            hex = hex.replace(/^#/, "");
 
-        const rgb = hexToRGBArray(languages[language]["color"]);
-        const rgba = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, .75)`;
+            let r = parseInt(hex.substring(0, 2), 16);
+            let g = parseInt(hex.substring(2, 4), 16);
+            let b = parseInt(hex.substring(4, 6), 16);
 
-        languageElement.style.backgroundColor = rgba;
+            return [r, g, b];
+        }
+
+        function adjustColor(color) {
+            let r = color[0];
+            let g = color[1];
+            let b = color[2];
+
+            if (r < 50) {
+                r = Math.min(r + 100, 255);
+            }
+            else if (r < 150) {
+                r = Math.min(r + 50, 255);
+            }
+
+            if (g < 50) {
+                g = Math.min(g + 100, 255);
+            }
+            else if (g < 150) {
+                g = Math.min(g + 50, 255);
+            }
+
+            if (b < 50) {
+                b = Math.min(b + 100, 255);
+            }
+            else if (b < 150) {
+                b = Math.min(b + 50, 255);
+            }
+
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        if (languages[language]["color"]) {
+            languageElement.style.color = adjustColor(hexToRgb(languages[language]["color"]));
+        }
+
         languageElement.innerHTML = `${language}`;
 
         gitStatsContainer.appendChild(languageElement);

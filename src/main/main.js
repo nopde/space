@@ -295,7 +295,7 @@ else {
 
         ipcMain.handle("getGitStats", async (event, name) => {
             const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
-            const result = await linguist(folderPath);
+            const result = await linguist(folderPath, { quick: true, offline: true, categories: ["programming", "markup", "data"] });
 
             return result;
         });
