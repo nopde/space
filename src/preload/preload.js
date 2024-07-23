@@ -15,6 +15,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
     getGithubBranch: (name) => ipcRenderer.invoke("getGithubBranch", name),
     openExternalURL: (url) => ipcRenderer.invoke("openExternalURL", url),
     getGitStats: (name) => ipcRenderer.invoke("getGitStats", name),
+    getGithubProjectsURL: (name) => ipcRenderer.invoke("getGithubProjectsURL", name),
     quit: () => ipcRenderer.invoke("quit"),
     minimize: () => ipcRenderer.invoke("minimize"),
     onResetScroll: (callback) => ipcRenderer.on("reset-scroll", callback)
