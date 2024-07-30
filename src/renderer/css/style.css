@@ -257,6 +257,14 @@ ripple {
     border-radius: 999px;
 }
 
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(208, 188, 255, .75);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: rgba(208, 188, 255, .5);
+}
+
 .tooltip {
     position: absolute;
     z-index: 999;
