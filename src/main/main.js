@@ -112,7 +112,19 @@ else {
             { label: `Space (v${app.getVersion()})`, type: "normal", enabled: false, icon: img.resize({ width: 16, height: 16 }) },
             { type: "separator" },
             { label: "Show", type: "normal", click: function () { mainWindow.show(); } },
-            { label: "Check for updates", type: "normal", click: function () { autoUpdater.checkForUpdates(); } },
+            { label: "Check for updates", type: "normal", click: async function () {
+                    const result = await autoUpdater.checkForUpdates();
+                    const latestVersion =  result["updateInfo"]["version"];
+
+                    if (app.getVersion() === latestVersion) {
+                        dialog.showMessageBox({
+                            type: "info",
+                            buttons: ["OK"],
+                            title: "Space Updater",
+                            detail: "You are using the latest version of Space."
+                        });
+                    }
+                } },
             { type: "separator" },
             { label: "Quit Space", type: "normal", click: function () { mainWindow.destroy(); app.quit(); } }
         ]);
