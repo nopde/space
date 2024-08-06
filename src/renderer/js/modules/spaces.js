@@ -1,4 +1,4 @@
-import { renameModal, deleteModal, infoModal } from "./modals.js";
+import { renameModal, deleteModal } from "./modals.js";
 import { checkRippleElements } from "./ripples.js";
 import { checkTooltipElements } from "./tooltips.js";
 import { codeSpaceFn, openSpaceFolderFn, getSpaces, openTerminalFn } from "./preload_functions.js";
@@ -17,7 +17,6 @@ export const updateSpaces = async () => {
                 <button id="${spaceName} delete" tooltip data-tooltip="Delete" ripple><span class="material-symbols-outlined">delete</span></button>
                 <button id="${spaceName} openFolder" tooltip data-tooltip="Open folder" ripple><span class="material-symbols-outlined">folder</span></button>
                 <button id="${spaceName} openTerminal" tooltip data-tooltip="Open terminal" ripple><span class="material-symbols-outlined">terminal</span></button>
-                <button id="${spaceName} info" tooltip data-tooltip="Info" ripple><span class="material-symbols-outlined">info</span></button>
             </div>
         `
         const spaceContainer = document.createElement("div");
@@ -32,36 +31,35 @@ export const updateSpaces = async () => {
         const deleteBtn = document.getElementById(`${spaceName} delete`);
         const openFolderBtn = document.getElementById(`${spaceName} openFolder`);
         const openTerminalBtn = document.getElementById(`${spaceName} openTerminal`);
-        const infoBtn = document.getElementById(`${spaceName} info`);
 
         renameBtn.addEventListener("click", (event) => {
-            renameModal(spaceName);
+            event.preventDefault();
             event.stopPropagation();
+            renameModal(spaceName);
         });
 
         deleteBtn.addEventListener("click", (event) => {
-            deleteModal(spaceName);
+            event.preventDefault();
             event.stopPropagation();
+            deleteModal(spaceName);
         });
 
         openFolderBtn.addEventListener("click", (event) => {
-            openSpaceFolderFn(spaceName);
+            event.preventDefault();
             event.stopPropagation();
+            openSpaceFolderFn(spaceName);
         });
 
         openTerminalBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
             openTerminalFn(spaceName);
-            event.stopPropagation();
-        });
-
-        infoBtn.addEventListener("click", (event) => {
-            infoModal(spaceName);
-            event.stopPropagation();
         });
 
         space.addEventListener("click", (event) => {
-            codeSpaceFn(spaceName);
+            event.preventDefault();
             event.stopPropagation();
+            codeSpaceFn(spaceName);
         });
     });
 

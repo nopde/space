@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage } = require("electron/main");
 const { shell, dialog } = require("electron");
 const { autoUpdater } = require("electron-updater");
-const linguist = require("linguist-js");
 const fs = require("original-fs");
 const fs_promises = require("original-fs").promises;
 const path = require("node:path");
@@ -244,97 +243,6 @@ else {
             const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
             execute(`start "" /D "${folderPath}"`, (output) => {
                 return output;
-            });
-        });
-
-        ipcMain.handle("getSpaceWeight", async (event, name) => {
-            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
-
-            return new Promise((resolve, reject) => {
-                exec(`powershell -command "$totalsize=[long]0;gci -File '${folderPath}' -r -fo -ea Silent|%{$totalsize+=$_.Length};$totalsize"`, (error, stdout, stderr) => {
-                    if (error) {
-                        reject(error);
-                        return;
-                    }
-                    if (stderr) {
-                        reject(stderr);
-                        return;
-                    }
-                    resolve(stdout.trim());
-                });
-            });
-        });
-
-        ipcMain.handle("getGithubRepo", async (event, name) => {
-            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
-
-            return new Promise((resolve, reject) => {
-                exec("git config --get remote.origin.url", { cwd: folderPath }, (error, stdout, stderr) => {
-                    if (error) {
-                        resolve("Git repository not found");
-                        return;
-                    }
-                    if (stderr) {
-                        resolve("Git repository not found");
-                        return;
-                    }
-                    resolve(stdout.trim());
-                });
-            });
-        });
-
-        ipcMain.handle("getGithubBranch", async (event, name) => {
-            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
-
-            return new Promise((resolve, reject) => {
-                exec("git rev-parse --abbrev-ref HEAD", { cwd: folderPath }, (error, stdout, stderr) => {
-                    if (error) {
-                        resolve("Git repository not found");
-                        return;
-                    }
-                    if (stderr) {
-                        resolve("Git repository not found");
-                        return;
-                    }
-                    resolve(stdout.trim());
-                });
-            });
-        });
-
-        ipcMain.handle("openExternalURL", (event, url) => {
-            shell.openExternal(url);
-        });
-
-        ipcMain.handle("getGitStats", async (event, name) => {
-            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
-            const result = await linguist(folderPath, { quick: true, offline: true, categories: ["programming", "markup", "data"] });
-
-            return result;
-        });
-
-        ipcMain.handle("getGithubProjectsURL", async (event, name) => {
-            const folderPath = path.join(app.getPath("appData"), "space", "spaces", name);
-            
-            return new Promise((resolve, reject) => {
-                exec("git config --get remote.origin.url", { cwd: folderPath }, (error, stdout, stderr) => {
-                    if (error) {
-                        resolve("GitHub projects URL not found");
-                        return;
-                    }
-                    if (stderr) {
-                        resolve("GitHub projects URL not found");
-                        return;
-                    }
-                    const remoteURL = stdout.trim();
-                    
-                    if (remoteURL.startsWith("https://github.com/")) {
-                        const githubProjectsURL = `${remoteURL}/projects`;
-                        resolve(githubProjectsURL);
-                        return;
-                    }
-                    
-                    resolve("Remote URL is not a GitHub repository");
-                });
             });
         });
 
