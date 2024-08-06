@@ -21,6 +21,8 @@ function createRipple(rippleElement) {
 
         if (min <= size / 2) {
             properSize = size * 1.5;
+
+            ripple.style.filter = "blur(2rem)";
         }
         else {
             properSize = size * (1 + min / size);
