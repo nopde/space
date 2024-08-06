@@ -32,7 +32,6 @@
         "electron-builder": "^24.13.3"
     },
     "dependencies": {
-        "electron-updater": "^6.3.0-alpha.6",
-        "linguist-js": "^2.7.1"
+        "electron-updater": "^6.3.0-alpha.6"
     }
 }
