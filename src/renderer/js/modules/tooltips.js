@@ -5,16 +5,21 @@ export function checkTooltipElements() {
     tooltips.innerHTML = "";
 
     tooltipElements.forEach(tooltipElement => {
+        const tooltipContainer = document.createElement("div");
+        tooltipContainer.classList.add("tooltip-container");
+
         const tooltip = document.createElement("div");
         tooltip.classList.add("tooltip");
         tooltip.classList.add("hidden");
 
+        tooltipContainer.appendChild(tooltip);
+
         tooltip.innerHTML = tooltipElement.getAttribute("data-tooltip");
 
-        tooltips.appendChild(tooltip);
+        tooltips.appendChild(tooltipContainer);
 
         tooltipElement.addEventListener("mouseenter", event => {
-            const tooltipRect = tooltip.getBoundingClientRect();
+            const tooltipRect = tooltipContainer.getBoundingClientRect();
             const tooltipElementRect = tooltipElement.getBoundingClientRect();
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
@@ -30,8 +35,8 @@ export function checkTooltipElements() {
                 y = windowHeight - Math.round(tooltipRect.height) - 5;
             }
 
-            tooltip.style.left = x + "px";
-            tooltip.style.top = y + "px";
+            tooltipContainer.style.left = x + "px";
+            tooltipContainer.style.top = y + "px";
 
             tooltip.classList.remove("hidden");
         });
