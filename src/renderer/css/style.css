@@ -3,7 +3,7 @@
     font-style: normal;
     font-weight: 100 700;
     font-display: swap;
-    src: url("../fonts/material-symbols.woff2") format("woff2");
+    src: url("../fonts/material_symbols.woff2") format("woff2");
 }
 
 .material-symbols-outlined {
@@ -18,7 +18,26 @@
     white-space: nowrap;
     word-wrap: normal;
     direction: ltr;
-    -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+    font-family: "Segoe Fluent Icons";
+    font-display: swap;
+    src: url("../fonts/fluent_icons.ttf");
+}
+
+.fluent-icons {
+    font-family: "Segoe Fluent Icons";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
 }
 
 @font-face {
@@ -33,6 +52,7 @@
     font-family: "Inter", sans-serif;
     user-select: none;
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
 }
 
 html {
@@ -41,7 +61,7 @@ html {
 
 body {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 400;
     background-color: rgb(20, 18, 24);
     overflow: hidden;
 }
@@ -71,7 +91,7 @@ body {
 
 .titlebar p {
     flex: 1 1;
-    font-size: 21px;
+    font-size: 18px;
     margin-left: 10px;
     color: rgb(208, 188, 255);
 }
@@ -144,11 +164,14 @@ body {
     background-color: transparent;
     color: inherit;
     overflow: hidden;
-    transition: all .25s cubic-bezier(0.25, 1, 0.5, 1), color 0s;
+    transition: all .15s cubic-bezier(0.25, 1, 0.5, 1), color 0s;
 }
 
 .titlebar button {
+    width: 40px;
+    height: 35px;
     border-radius: 0;
+    cursor: default;
     -webkit-app-region: no-drag;
 }
 
@@ -156,6 +179,10 @@ body {
 .topbar button:hover,
 .spaces button:hover {
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+.titlebar button[red]:hover {
+    background-color: rgb(255, 0, 0);
 }
 
 .spaces {
@@ -242,6 +269,7 @@ ripple {
     scale: .2;
     translate: -50% -50%;
     animation: grow .35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    will-change: filter;
     transition: opacity .25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -265,42 +293,30 @@ ripple {
     background-color: rgba(208, 188, 255, .5);
 }
 
-.tooltip {
+.tooltip-container {
     position: absolute;
     z-index: 999;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tooltip {
     padding: 5px 10px;
     border-radius: 999px;
     background-color: white;
+    box-shadow: 0 3px 10px rgb(0, 0, 0, .25);
     font-size: 14px;
     font-weight: normal;
     color: black;
     text-wrap: nowrap;
-    pointer-events: none;
-    transition: opacity .1s cubic-bezier(0.25, 1, 0.5, 1), translate .1s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.tooltip::before {
-    content: "";
-    position: absolute;
-    z-index: 777;
-    top: 0;
-    left: 0;
-    background: linear-gradient(45deg, rgba(208, 188, 255, .75), transparent);
-    filter: blur(10px);
-    width: 100%;
-    height: 100%;
-    border-radius: 999px;
-    transition: opacity .25s cubic-bezier(0.25, 1, 0.5, 1), scale .25s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity .1s cubic-bezier(0.25, 1, 0.5, 1), scale .3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .tooltip.hidden {
     opacity: 0;
-    translate: 0 5px;
-}
-
-.tooltip.hidden::before {
-    opacity: 0;
-    scale: .75;
+    scale: .9;
 }
 
 .tooltip::after {
