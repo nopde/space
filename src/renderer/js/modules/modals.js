@@ -192,16 +192,13 @@ function createModal(name, content) {
     const modalTitle = modal.querySelector(".modal-title");
     const modalButton = modalTitle.querySelector("button");
 
-    checkRippleElements(modalContainer.shadowRoot);
-    checkTooltipElements(modalContainer.shadowRoot);
-
-    checkRippleElements(modalContent.shadowRoot);
-    checkTooltipElements(modalContent.shadowRoot);
-
     const callback = (root) => {
         checkRippleElements(root);
         checkTooltipElements(root);
     }
+
+    callback(modalContainer.shadowRoot);
+    callback(modalContent.shadowRoot);
 
     const modalContainerObserver = initializeObserver(modalContainer.shadowRoot, callback(modalContainer.shadowRoot));
     const modalContentObserver = initializeObserver(modalContent.shadowRoot, callback(modalContent.shadowRoot));
@@ -246,7 +243,7 @@ export function renameModal(spaceName) {
         </form>
     `;
 
-    const title = `Rename <span style="text-decoration: underline dotted 1px; color: rgb(208, 188, 255)">${spaceName}</span>`;
+    const title = `Rename <span style="text-decoration: underline 1px; color: rgb(208, 188, 255)">${spaceName}</span>`;
     let modalContainer = createModal(title, modalHTML);
 
     const confirmButton = modalContainer.shadowRoot.querySelector("div.modal-content").shadowRoot.querySelector("button");
@@ -270,7 +267,7 @@ export function deleteModal(spaceName) {
         <button class="modal-button" type="submit" ripple>Confirm</button>
     `;
 
-    const title = `Delete <span style="text-decoration: underline dotted 1px; color: rgb(208, 188, 255)">${spaceName}</span>`;
+    const title = `Delete <span style="text-decoration: underline 1px; color: rgb(208, 188, 255)">${spaceName}</span>`;
     let modalContainer = createModal(title, modalHTML);
 
     const confirmButton = modalContainer.shadowRoot.querySelector("div.modal-content").shadowRoot.querySelector("button");
