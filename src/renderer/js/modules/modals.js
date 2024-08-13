@@ -1,3 +1,6 @@
+import { initializeObserver } from "./observer.js";
+import { checkRippleElements } from "./ripples.js";
+import { checkTooltipElements } from "./tooltips.js";
 import { renameSpaceFn, deleteSpaceFn } from "./preload_functions.js";
 import { updateSpaces } from "./spaces.js";
 
@@ -86,6 +89,7 @@ function createModal(name, content) {
             }
 
             .modal-title button {
+                position: relative;
                 width: max-content;
                 height: max-content;
                 background-color: rgb(255, 255, 255, .1);
@@ -114,7 +118,7 @@ function createModal(name, content) {
             <div class="modal-title">
                 <p>${name}</p>
 
-                <button>Close</button>
+                <button ripple>Close</button>
             </div>
             <div class="modal-content"></div>
         </div>
@@ -141,6 +145,7 @@ function createModal(name, content) {
 
             button.modal-button {
                 flex: 1 1;
+                position: relative;
                 background-color: rgb(255, 255, 255, .25);
                 border: none;
                 padding: 10px 20px;
@@ -187,14 +192,36 @@ function createModal(name, content) {
     const modalTitle = modal.querySelector(".modal-title");
     const modalButton = modalTitle.querySelector("button");
 
-    modalButton.focus();
+    checkRippleElements(modalContainer.shadowRoot);
+    checkTooltipElements(modalContainer.shadowRoot);
 
-    modalButton.addEventListener("click", () => {
+    checkRippleElements(modalContent.shadowRoot);
+    checkTooltipElements(modalContent.shadowRoot);
+
+    const callback = (root) => {
+        checkRippleElements(root);
+        checkTooltipElements(root);
+    }
+
+    const modalContainerObserver = initializeObserver(modalContainer.shadowRoot, callback(modalContainer.shadowRoot));
+    const modalContentObserver = initializeObserver(modalContent.shadowRoot, callback(modalContent.shadowRoot));
+
+    modalContainer.addEventListener("close-modal", () => {
         const animation = modalContainer.animate([{ opacity: 0 }], { duration: 100, easing: "cubic-bezier(0.25, 1, 0.5, 1)", fill: "forwards" });
 
         animation.onfinish = () => {
+            modalContainerObserver.disconnect();
+            modalContentObserver.disconnect();
             modalContainer.remove();
+
+            modalContainer.dispatchEvent(new CustomEvent("ready-to-close"));
         }
+    });
+
+    modalButton.focus();
+
+    modalButton.addEventListener("click", () => {
+        modalContainer.dispatchEvent(new CustomEvent("close-modal"));
     });
 
     return modalContainer;
@@ -215,7 +242,7 @@ export function renameModal(spaceName) {
 
         <form onsubmit="return false">
             <input class="modal-input" id="popup input" type="text" placeholder="Space name" spellcheck="false" autocomplete="off" required>
-            <button class="modal-button" type="submit">Confirm</button>
+            <button class="modal-button" type="submit" ripple>Confirm</button>
         </form>
     `;
 
@@ -231,18 +258,16 @@ export function renameModal(spaceName) {
     confirmButton.addEventListener("click", event => {
         renameSpaceFn(spaceName, input.value.replace(/ /g, "-"));
 
-        const animation = modalContainer.animate([{ opacity: 0 }], { duration: 100, easing: "cubic-bezier(0.25, 1, 0.5, 1)", fill: "forwards" });
-
-        animation.onfinish = () => {
-            modalContainer.remove();
+        modalContainer.dispatchEvent(new CustomEvent("close-modal"));
+        modalContainer.addEventListener("ready-to-close", () => {
             updateSpaces();
-        }
+        });
     });
 }
 
 export function deleteModal(spaceName) {
     const modalHTML = `
-        <button class="modal-button" type="submit">Confirm</button>
+        <button class="modal-button" type="submit" ripple>Confirm</button>
     `;
 
     const title = `Delete <span style="text-decoration: underline dotted 1px; color: rgb(208, 188, 255)">${spaceName}</span>`;
@@ -255,11 +280,9 @@ export function deleteModal(spaceName) {
     confirmButton.addEventListener("click", event => {
         deleteSpaceFn(spaceName);
 
-        const animation = modalContainer.animate([{ opacity: 0 }], { duration: 100, easing: "cubic-bezier(0.25, 1, 0.5, 1)", fill: "forwards" });
-
-        animation.onfinish = () => {
-            modalContainer.remove();
+        modalContainer.dispatchEvent(new CustomEvent("close-modal"));
+        modalContainer.addEventListener("ready-to-close", () => {
             updateSpaces();
-        }
+        });
     });
 }

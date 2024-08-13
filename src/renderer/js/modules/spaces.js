@@ -1,6 +1,4 @@
 import { renameModal, deleteModal } from "./modals.js";
-import { checkRippleElements } from "./ripples.js";
-import { checkTooltipElements } from "./tooltips.js";
 import { codeSpaceFn, openSpaceFolderFn, getSpaces, openTerminalFn } from "./preload_functions.js";
 
 export const updateSpaces = async () => {
@@ -62,9 +60,6 @@ export const updateSpaces = async () => {
             codeSpaceFn(spaceName);
         });
     });
-
-    checkRippleElements();
-    checkTooltipElements();
 
     const searchBar = document.getElementById("search");
     const inputEvent = new Event("input", {

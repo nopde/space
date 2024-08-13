@@ -1,10 +1,45 @@
-function createRipple(rippleElement) {
+function createRipple(rippleElement, rippleColor, rippleOpacity) {
     const existingSurface = rippleElement.querySelector(":scope > ripple-surface");
     if (existingSurface) {
         return;
     }
 
     const rippleSurface = document.createElement("ripple-surface");
+
+    const rippleSurfaceStyle = `
+        :host {
+            overflow: hidden;
+            border-radius: inherit;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        @keyframes grow {
+            to {
+                scale: 1;
+            }
+        }
+
+        ripple {
+            position: absolute;
+            background: radial-gradient(closest-side, rgba(${rippleColor}, ${rippleOpacity}) max(100% - 70px, 65%), transparent 100%);
+            border-radius: 100%;
+            scale: .2;
+            translate: -50% -50%;
+            animation: grow .35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            transition: opacity .25s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+    `;
+
+    rippleSurface.attachShadow({ mode: "open" });
+    rippleSurface.shadowRoot.innerHTML = `<style>${rippleSurfaceStyle}</style>`;
 
     rippleElement.appendChild(rippleSurface);
 
@@ -21,8 +56,6 @@ function createRipple(rippleElement) {
 
         if (min <= size / 2) {
             properSize = size * 1.5;
-
-            ripple.style.filter = "blur(2rem)";
         }
         else {
             properSize = size * (1 + min / size);
@@ -76,16 +109,21 @@ function createRipple(rippleElement) {
             }
         });
 
-        rippleSurface.appendChild(ripple);
+        rippleSurface.shadowRoot.appendChild(ripple);
 
         event.stopPropagation();
     });
 }
 
-export function checkRippleElements() {
-    const rippleElements = document.querySelectorAll("[ripple]");
+export function checkRippleElements(root = document) {
+    const rippleElements = root.querySelectorAll("[ripple]");
 
     rippleElements.forEach(rippleElement => {
-        createRipple(rippleElement);
+        const hasRippleColor = rippleElement.hasAttribute("ripple-color");
+        const rippleColor = hasRippleColor ? rippleElement.getAttribute("ripple-color") : "255, 255, 255";
+        const hasRippleOpacity = rippleElement.hasAttribute("ripple-opacity");
+        const rippleOpacity = hasRippleOpacity ? rippleElement.getAttribute("ripple-opacity") : "0.08";
+
+        createRipple(rippleElement, rippleColor, rippleOpacity);
     });
 }

@@ -1,6 +1,7 @@
 import { SearchBar } from "./modules/searchbar.js";
 import { createSpaceFolder, createSpaceFn, openSpacesFolderFn, openTerminalFn } from "./modules/preload_functions.js";
 import { updateSpaces } from "./modules/spaces.js";
+import { initializeModules } from "./modules.js";
 
 // Variables
 
@@ -59,3 +60,4 @@ search.initialize(spaces);
 
 createSpaceFolder();
 updateSpaces();
+initializeModules(document.querySelector(".wrapper"));
